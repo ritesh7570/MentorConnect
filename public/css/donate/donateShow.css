@@ -1,0 +1,130 @@
+/* Scoped styles for the page container */
+.page-container {
+  padding: 20px;
+  background-color: #f4f6f9;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-container .card {
+  background-color: #ffffff;
+  border: 2px solid #d1d9e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.page-container .table {
+  margin: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.page-container .table th,
+.page-container .table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: center;
+}
+
+.page-container .table th {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+.page-container .table-responsive {
+  margin-top: 15px;
+}
+
+.page-container .btn-back {
+  background-color: #1f78d1;
+  border: 2px solid #1a5ba0;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-container .btn-back:hover {
+  background-color: #145394;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.page-container .btn-edit {
+  background-color: #1f78d1;
+  border: 2px solid #1e7e34;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.page-container .btn-edit:hover {
+  background-color: #1e7e34;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.page-container .btn-delete {
+  background-color: #dc3545;
+  border: 2px solid #b02a37;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.page-container .btn-delete:hover {
+  background-color: #b02a37;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.page-container .btn-primary {
+  background-color: #ffc107;
+  border: 2px solid #d39e00;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.page-container .btn-primary:hover {
+  background-color: #d39e00;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.page-container h1,
+.page-container h3 {
+  color: #1f78d1;
+  font-weight: bold;
+}
+
+.page-container p {
+  color: #495057;
+  line-height: 1.6;
+}
+
+.page-container hr {
+  border: 1px solid #d1d9e6;
+}
+
+.page-container .row .col-md-7,
+.page-container .row .col-md-5 {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .page-container .row .col-md-7,
+  .page-container .row .col-md-5 {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-container {
+    padding: 10px;
+    max-width: 95%;
+  }
+}

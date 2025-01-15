@@ -1,0 +1,167 @@
+/* Outer Border for the Page Container */
+.page-container {
+  border: 2px solid #00ffcc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Neon Border Effect for Input Fields */
+input.form-control {
+  border: 2px solid #00ffcc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+input.form-control:focus {
+  border-color: #00ffcc;
+  box-shadow: 0 0 8px #00ffcc;
+}
+
+/* Button Styles */
+.btn-dark {
+  background-color: #0c7563 !important; /* Dark blue color */
+  border: 2px solid #00493a;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 5px;
+}
+
+.btn-dark:hover {
+  background-color: #00ffcc;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-dark i {
+  margin-right: 8px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: 2px solid #b02a37;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-danger i {
+  margin-right: 8px;
+}
+
+.btn-primary {
+  background-color: #fcde70; /* Blue */
+  border: 2px solid #d4a20f;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #e8b86d;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-primary i {
+  margin-right: 8px;
+}
+
+.btn-secondary {
+  background-color: #045449;
+  border: 2px solid #046551;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #098f74;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-secondary i {
+  margin-right: 8px;
+}
+
+/* Heading Style */
+h1 {
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Spacing Adjustments */
+.row.mt-3 {
+  margin-top: 30px;
+}
+
+.col-md-8.offset-md-2 {
+  margin-top: 20px;
+}
+.btn-dark i {
+  margin-right: 8px; /* Adjust space between icon and text */
+}
+/* Neon Border Effect for Input Fields */
+input.form-control,
+select.form-select {
+  border: 2px solid #00ffcc; /* Neon border color */
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+input.form-control:focus,
+select.form-select:focus {
+  border-color: #00ffcc;
+  box-shadow: 0 0 8px #00ffcc;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 15px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-container {
+    padding: 10px;
+    max-width: 95%;
+  }
+}

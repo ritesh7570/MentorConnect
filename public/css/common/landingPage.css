@@ -1,0 +1,386 @@
+/* General Styling */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Hero Section */
+.page1hero {
+  display: flex;
+  flex-wrap: wrap; /* Enable wrapping for responsiveness */
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 20px; /* Add padding for mobile view */
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.hero {
+  flex: 0 0 60%;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.hero-image {
+  flex: 0 0 40%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #575353 !important;
+  color: white !important;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #e4e4e4 !important;
+  color: #181616 !important;
+}
+
+.image-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.stars {
+  color: gold;
+  font-size: 20px;
+}
+
+.rating-text {
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.circle-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: -10px;
+  border: 2px solid white;
+}
+
+.circle-image:first-child {
+  margin-left: 0;
+}
+
+/* Challenges Section */
+.challenges-section {
+  background-color: #fcfcfc;
+  padding: 60px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.main-title {
+  font-size: 35px;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.challenge-item {
+  padding: 20px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.challenge-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.challenge-title {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.counter-bar {
+  background-color: #f9f9f9;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.counter-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.counter-item {
+  text-align: center;
+  padding: 10px;
+  margin: 15px;
+}
+
+.counter-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.counter-label {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+/* How It Works Section */
+.how-it-works {
+  padding: 60px 20px;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.how-it-works h2 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.steps-container {
+  display: flex;
+  flex-wrap: wrap; /* Enable wrapping for mobile */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.steps {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.step-number {
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.step-content h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.step-content p {
+  margin: 5px 0 0;
+  color: #555;
+}
+
+.steps-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.steps-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Features Section */
+.features-section {
+  background-color: #f8f9fa;
+  padding: 80px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.features-header h2 {
+  font-size: 2.5rem;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.features-header p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.feature {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 100%;
+  padding: 20px;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-icon img {
+  width: 60px;
+  height: auto;
+}
+
+.feature-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.feature-content h3 {
+  font-size: 1.5rem;
+  color: #212529;
+  margin-bottom: 10px;
+}
+
+.feature-content p {
+  font-size: 1rem;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* Call to Action Section */
+.cta-section {
+  background-color: #003366;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cta-content h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.cta-content .quote {
+  font-size: 20px;
+  margin-bottom: 30px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.cta-button {
+  background-color: white;
+  color: #003366;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page1hero {
+    flex-direction: column;
+  }
+  .hero {
+    text-align: center;
+  }
+  .challenges-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .steps-container {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,81 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+    <%- layout("layouts/boilerplate") %>
+<% } %>
+
+<div class="container page-container">
+    <h1 class="text-center mb-4">Success Stories</h1>
+    <a href="/successes/new" class="btn btn-success mb-3"> + Create</a>
+    <div class="row">
+        <% successes.reverse().forEach(success => { %>
+        <div class="col-md-4 mb-4">
+            <div class="card post-card">
+                <div class="card-body">
+                    <div class="upperpart">
+                        <% if (success.image && success.image.url) { %>
+                        <img src="<%= success.image.url %>" alt="img" class="img-fluid"
+                            onerror="this.onerror=null; this.style.display='none'; showPlaceholder(this);">
+                        <% } else { %>
+                        <div class="no-image-placeholder">No image found</div>
+                        <% } %>
+
+                        <!-- < % =success  %> -->
+                        <!-- Truncate the title to 50 characters -->
+                        <h5 class="card-title">
+                            <%= success.title.length > 50 ? success.title.substring(0, 50) + "..." : success.title %>
+                        </h5>
+                        <p class="card-text"><%= success.description.substring(0, 50) %>...</p>
+                    </div>
+                    <div class="lowerpart">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex">
+                                <!-- Like button -->
+                                <a href="/successes/<%= success._id %>/like" class="btn btn-like btn-sm me-2">
+                                    <%= success.likes.length %>&nbsp;
+                                    <% if (currUser && success.likes.findIndex(like => like.equals(currUser._id)) > -1) { %>
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                    <% } else { %>
+                                    <i class="fa-regular fa-thumbs-up"></i>
+                                    <% } %>
+                                </a>
+                                <!-- Comment button -->
+                                <a href="/successes/<%= success._id %>#comment-section"
+                                    class="btn btn-comment btn-sm me-2">
+                                    <i class="fa-solid fa-comment"></i>
+                                </a>
+                            </div>
+                            <!-- Read more button -->
+                            <a href="/successes/<%= success._id %>" class="btn btn-primary btn-sm readmore">Read
+                                More</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</div>
+
+<script>
+    function showPlaceholder(img) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'no-image-placeholder';
+        placeholder.innerText = 'Image not found';
+        placeholder.style.width = '100%';
+        placeholder.style.aspectRatio = '16/9'; // Adjust as needed
+        placeholder.style.display = 'flex';
+        placeholder.style.alignItems = 'center';
+        placeholder.style.justifyContent = 'center';
+        placeholder.style.backgroundColor = '#f0f0f0'; // Light grey background
+        placeholder.style.color = '#666'; // Text color
+        placeholder.style.fontWeight = 'bold';
+        placeholder.style.borderBottom = '2px solid #00ffcc'; // Neon border
+        placeholder.style.borderRadius = '5px';
+
+        img.parentNode.insertBefore(placeholder, img);
+    }
+</script>

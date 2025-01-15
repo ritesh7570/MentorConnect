@@ -1,0 +1,36 @@
+<%- layout("/layouts/boilerplate") -%>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <a href="/groups/<%= groupId %>/quizzes" class="btn btn-secondary">Back to Quizzes</a>
+        <hr><%if(currUser.equals(quiz.createdBy)){%>
+        <a href="/groups/<%= groupId %>/quizzes/<%= quiz._id %>/edit" class="btn btn-warning">Edit Quiz</a>
+        <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button class="btn btn-danger">Delete</button>
+        </form>
+        <% } %>
+        <h2><%= quiz.title %></h2><hr>
+        <!-- Start the quiz form -->
+        <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>/submit" method="POST">
+            <h4>Questions</h4>
+            <ul>
+                <% quiz.questions.forEach((question, index) => { %>
+                <li>
+                    <strong>Q<%= index + 1 %>:</strong> <%= question.questionText %>
+                    <ul>
+                        <% question.options.forEach((option, optIndex) => { %>
+                        <li>
+                            <label>
+                                <input type="radio" name="answers[<%= index %>]" value="<%= optIndex %>">
+                                <%= option %>
+                            </label>
+                        </li>
+                        <% }) %>
+                    </ul>
+                </li>
+                <% }) %>
+            </ul>
+            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+        </form>
+    </div>
+</div>

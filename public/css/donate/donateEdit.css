@@ -1,0 +1,166 @@
+/* Outer Border for the Page Container */
+.page-container {
+  border: 1px solid #ddd; /* Subtle border for professionalism */
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff; /* Clean white background */
+  max-width: 600px; /* Reduced width for a compact look */
+  margin: 20px auto; /* Center the container with a top margin */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for elegance */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 10px;
+    max-width: 90%; /* Flexible width for tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  .page-container {
+    padding: 8px;
+    max-width: 95%; /* Flexible width for mobiles */
+  }
+}
+
+/* Custom border for form controls */
+.custom-border {
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  margin-bottom: 15px; /* Space between input fields */
+}
+
+/* Form Layout */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Unified spacing between fields */
+}
+
+.form-row .col-md-6 {
+  flex: 0 0 48%;
+  max-width: 48%;
+}
+
+@media (max-width: 768px) {
+  .form-row .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 10px; /* Vertical spacing for stacked inputs */
+  }
+}
+
+/* Buttons */
+.btn-dark {
+  background-color: #007bff; /* Bootstrap's primary blue */
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-dark:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary.back-btn {
+  background-color: #4c5e50; /* Bright green for visibility */
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.btn-secondary.back-btn:hover {
+  background-color: #232524;
+}
+
+/* Update Donation Button */
+.btn-dark.add-btn {
+  background-color: #004493; /* Dark bluish color */
+  border: 2px solid #003366; /* Matching border */
+  color: #ffffff;
+  padding: 10px 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  display: inline-flex; /* Align icon and text properly */
+  align-items: center; /* Center align icon and text vertically */
+}
+
+.btn-dark.add-btn i {
+  margin-right: 8px; /* Add space between icon and text */
+}
+
+.btn-dark.add-btn:hover {
+  background-color: #002a80;
+  transform: translateY(-2px);
+}
+
+/* Labels and Descriptions */
+.form-label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+textarea {
+  resize: none; /* Prevent resizing */
+  font-size: 14px;
+  padding: 8px;
+}
+
+/* Emergency Checkbox */
+.form-check {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label {
+  margin-left: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Typography Adjustments */
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Form Feedback */
+.valid-feedback {
+  font-size: 12px;
+  color: #28a745;
+}
+
+.invalid-feedback {
+  font-size: 12px;
+  color: #dc3545;
+}
+
+/* General Adjustments */
+body {
+  font-family: "Arial", sans-serif; /* Professional and clean font */
+  background-color: #f8f9fa; /* Light background for contrast */
+  color: #333;
+  line-height: 1.6;
+}

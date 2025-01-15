@@ -1,0 +1,173 @@
+<% layout("/common/layouts/boilerplate") -%>
+
+<div id ="onBoard-Page" class="container mt-5">
+    <h1 class="text-center mb-4">Register</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="progress-container mb-4">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="step-indicators d-flex justify-content-between mt-2">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                </div>
+            </div>
+            <button id="skipButton" class="btn btn-link skip-button">Skip</button>
+            <form action="/auth/register" method="post" class="needs-validation" novalidate id="registrationForm">
+                <div class="step-content active" id="step1">
+                    <h2 class="mb-4">Personal Details</h2>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Select Role *</label>
+                        <div class="role-selection">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="mentor" name="role" value="mentor" required>
+                                <label class="form-check-label" for="mentor">Mentor</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="mentee" name="role" value="mentee" required>
+                                <label class="form-check-label" for="mentee">Mentee</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="admin" name="role" value="admin" required>
+                                <label class="form-check-label" for="admin">Admin</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username *</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Contact No *</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City *</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State *</label>
+                        <input type="text" class="form-control" id="state" name="state" required>
+                    </div>
+                </div>
+                <div class="step-content" id="step2">
+                    <h2 class="mb-4">Educational and Professional Details</h2>
+                    <div class="mb-3">
+                        <label for="education" class="form-label">Current/Previous Education *</label>
+                        <input type="text" class="form-control" id="education" name="education" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="job" class="form-label">Current/Previous Job Profile *</label>
+                        <input type="text" class="form-control" id="job" name="job" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">Years of Experience</label>
+                        <input type="number" class="form-control" id="experience" name="experience" min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Skills (comma-separated)</label>
+                        <input type="text" class="form-control" id="skills" name="skills">
+                    </div>
+                </div>
+                <div class="step-content" id="step3">
+                    <h2 class="mb-4">Document Upload</h2>
+                    <div class="mb-3">
+                        <label for="aadhar" class="form-label">Aadhar Card *</label>
+                        <input type="file" class="form-control" id="aadhar" name="aadhar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="qualification" class="form-label">Qualification Certificate *</label>
+                        <input type="file" class="form-control" id="qualification" name="qualification" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="experience_cert" class="form-label">Experience Certificate</label>
+                        <input type="file" class="form-control" id="experience_cert" name="experience_cert">
+                    </div>
+                </div>
+                <div class="button-group mt-4">
+                    <button type="button" id="prevBtn" class="btn btn-secondary" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 3;
+
+function showStep(step) {
+    document.querySelectorAll('.step-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.getElementById(`step${step}`).classList.add('active');
+    
+    document.querySelectorAll('.step').forEach((stepIndicator, index) => {
+        if (index < step) {
+            stepIndicator.classList.add('active');
+        } else {
+            stepIndicator.classList.remove('active');
+        }
+    });
+
+    const progress = ((step - 1) / (totalSteps - 1)) * 100;
+    document.querySelector('.progress-bar').style.width = `${progress}%`;
+    document.querySelector('.progress-bar').setAttribute('aria-valuenow', progress);
+
+    document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'inline-block';
+    document.getElementById('nextBtn').innerHTML = step === totalSteps ? 'Submit' : 'Next';
+}
+
+function nextPrev(n) {
+    currentStep += n;
+    if (currentStep < 1) currentStep = 1;
+    if (currentStep > totalSteps) {
+        document.getElementById('registrationForm').submit();
+        return;
+    }
+    showStep(currentStep);
+}
+
+document.getElementById('skipButton').addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+        nextPrev(1);
+    }
+});
+
+// Initialize the form
+showStep(currentStep);
+
+// Password validation script
+document.querySelector('form').addEventListener('submit', function (event) {
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirm_password').value;
+    if (password !== confirmPassword) {
+        event.preventDefault();
+        document.getElementById('confirm_password').classList.add('is-invalid');
+        document.getElementById('confirm_password').classList.remove('is-valid');
+    } else {
+        document.getElementById('confirm_password').classList.remove('is-invalid');
+        document.getElementById('confirm_password').classList.add('is-valid');
+    }
+});
+</script>
+

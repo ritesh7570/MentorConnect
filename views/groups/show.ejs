@@ -1,0 +1,97 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+    
+    <div class="container-fluid groupshow-container">
+        <div class="row">
+            <!-- Left Sidebar: Members List -->
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Members</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Total Members:</strong> <%= group.memberCount %></p>
+                        <ul class="list-group">
+                            <% if (group.members.length) { %>
+                            <% group.members.forEach(member => { %>
+                            <li class="list-group-item">
+                                <a href="/users/profile/<%= member._id %>"><%= member.username %></a>
+                            </li>
+                            <% }) %>
+                            <% } else { %>
+                            <li class="list-group-item">No members yet.</li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Main Content: Group Details -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <!-- Back to Groups -->
+                        <a href="/groups" class="btn btn-secondary d-inline-flex align-items-center">
+                            <i class="fa-solid fa-left-long"></i> Back
+                        </a>
+    
+                        <!-- Edit and Delete Buttons for Group Owner -->
+                        <% if (currUser && String(currUser._id) === String(group.owner._id)) { %>
+                        <div class="btns d-inline-flex align-items-center">
+                            <a href="/groups/<%= group._id %>/edit"
+                                class="btn btn-warning d-inline-flex align-items-center">
+                                <i class="fa-solid fa-edit"></i> Edit
+                            </a>
+                            <form action="/groups/<%= group._id %>?_method=delete" method="post" class="ms-2">
+                                <button class="btn btn-danger d-inline-flex align-items-center">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="card-body">
+                        <h1><%= group.name %></h1>
+                        <p><%= group.description %></p>
+                        <p><strong>Motto:</strong> <%= group.motto %></p>
+                        <p><strong>Website:</strong> <a href="<%= group.website %>" target="_blank"><%= group.website %></a>
+                        </p>
+                        <p><strong>Contact Email:</strong> <%= group.contactEmail %></p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Right Sidebar: Group Features -->
+            <div class="col-md-2">
+                <h4>Group Features</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="/groups/<%= group._id %>/quizzes?mentorUserId=<%= currUser._id %>" class="btn btn-link">Quizzes</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://localhost:8080/discussions?mentorUserId=<%= currUser._id %>" class="btn btn-link">Discussions</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/successes?mentorUserId=<%= currUser._id %>" class="btn btn-link">Success Stories</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://localhost:8080/jobs?mentorUserId=<%= currUser._id %>" class="btn btn-link">Jobs</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/events?mentorUserId=<%= currUser._id %>" class="btn btn-link">Events</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/donations?mentorUserId=<%= currUser._id %>" class="btn btn-link">Donations</a>
+                    </li>
+                  
+                   
+                </ul>
+            </div>
+        </div>
+    </div>
+    

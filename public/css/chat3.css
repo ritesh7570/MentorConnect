@@ -1,0 +1,123 @@
+/* Chat Box Styles */
+.chat-box {
+    background-color: #f9f9f9; /* Light gray background */
+    max-height: 500px;
+    overflow-y: auto;
+    padding-bottom: 60px; /* Add space for the input area */
+  }
+  
+  /* Message Styles */
+  .mb-2 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Sender Message (Greenish) */
+  .text-end {
+    text-align: right;
+  }
+  
+  .text-end strong {
+    display: block; /* Move sender's name to a separate line */
+    color: #155724; /* Dark green for 'You' label */
+  }
+  
+  .text-end p {
+    background-color: #d4edda; /* Light green background for sender */
+    color: #155724; /* Dark green text */
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 70%;
+    display: inline-block;
+    word-wrap: break-word; /* Ensure text breaks in long words */
+  }
+  
+  .text-end small {
+    display: block; /* Timestamp in a new line */
+    margin-top: 5px;
+    color: #6c757d; /* Muted text color for timestamps */
+  }
+  
+  /* Receiver Message (Bluish) */
+  .text-start {
+    text-align: left;
+  }
+  
+  .text-start strong {
+    display: block; /* Move receiver's name to a separate line */
+    color: #004085; /* Dark blue for receiver's name */
+  }
+  
+  .text-start p {
+    background-color: #cce5ff; /* Light blue background for receiver */
+    color: #004085; /* Dark blue text */
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 70%;
+    display: inline-block;
+    word-wrap: break-word; /* Ensure text breaks in long words */
+  }
+  
+  .text-start small {
+    display: block; /* Timestamp in a new line */
+    margin-top: 5px;
+    color: #6c757d; /* Muted text color for timestamps */
+  }
+  
+  /* Timestamps */
+  small {
+    font-size: 0.8rem;
+    color: #6c757d; /* Muted text color for timestamps */
+  }
+  
+  /* Message Input Area */
+  /* Flexbox styling for chat form */
+  #chatForm {
+    display: flex; /* Apply flexbox layout */
+    align-items: center; /* Vertically align the items (input and button) */
+    justify-content: space-between; /* Space between input and button */
+    width: 100%; /* Ensure form takes up full width */
+    padding: 10px; /* Add padding for spacing */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
+    margin-top: 10px; /* Add some space above the form */
+  }
+  
+  #messageInput {
+    flex-grow: 1; /* Allow input to take up remaining space */
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px; /* Padding inside the input */
+    border: 1px solid #ccc; /* Light border */
+    margin-right: 10px; /* Space between input and button */
+  }
+  
+  #chatForm button {
+    background: transparent; /* No background for button */
+    border: none; /* No border for button */
+    padding: 0; /* No padding */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    font-size: 1.5rem; /* Icon size */
+    color: #28a745; /* Green color for the icon */
+  }
+  
+  #chatForm button:hover {
+    color: #218838; /* Darker green on hover */
+  }
+  /* Centering the Title */
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  h1 center {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Optional: Enhancing the chat box visibility */
+  .chat-box {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }

@@ -1,0 +1,97 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+    <%- layout("layouts/boilerplate") %>
+<% } %>
+<div class="container mt-4 job-container">
+    <div class="row">
+        <!-- Left Box: Job Information -->
+        <div class="col-md-8 d-flex align-items-stretch">
+            <div class="card job-info-box flex-fill">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <a href="/jobs" class="btn btn-back d-inline-flex align-items-center">
+                            <i class="fa-solid fa-left-long"></i> Back
+                        </a>
+                        <% if(currUser && currUser._id.equals(job.owner._id)){ %>
+                        <div class="btns">
+                            <a href="/jobs/<%= job._id %>/edit" class="btn btn-edit d-inline-flex align-items-center">
+                                <i class="fa-solid fa-edit"></i> Edit
+                            </a>
+                            <form action="/jobs/<%= job._id %>?_method=delete" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-delete d-inline-flex align-items-center">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <div class="job-info-content text-center">
+                        <h1 class="card-title mb-3"><%= job.title %></h1>
+                        <p class="lead"><strong><i class="fa-solid fa-building"></i> Company:</strong>
+                            <%= job.companyName %></p>
+                        <p class="lead"><strong><i class="fa-solid fa-location-dot"></i> Location:</strong>
+                            <%= job.location %></p>
+                        <p class="lead"><strong><i class="fa-solid fa-briefcase"></i> Job Type:</strong>
+                            <%= job.jobType %></p>
+                        <p class="lead"><strong><i class="fa-solid fa-money-bill"></i> Salary:</strong>
+                            $<%= job.salary ? job.salary.toLocaleString() : 'Not specified' %> per year</p>
+                        <p class="lead"><strong><i class="fa-solid fa-link"></i> Apply at:</strong> <a
+                                href="<%= job.applyLink %>" target="_blank"><%= job.applyLink %></a></p>
+                    </div>
+
+                    <div class="creator-info mt-4 text-center">
+                        <h5>Created by:</h5>
+                        <p><strong><i class="fa-solid fa-user"></i> <%= job.owner.username %></strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Box: Comments and Reviews -->
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card comment-section flex-fill">
+                <div class="card-body">
+                    <% if(currUser){ %>
+                    <form action="/jobs/<%= job._id %>/reviews" method="post" class="needs-validation mb-4" novalidate>
+                        <label for="comment" class="form-label">
+                            <h5>Leave a Comment</h5>
+                        </label>
+                        <textarea name="jobReview[comment]" class="form-control" id="comment" rows="3"
+                            required></textarea>
+                        <div class="invalid-feedback">Please add a comment for the review.</div>
+                        <button type="submit" class="btn btn-submit d-inline-flex align-items-center mt-2">
+                            <i class="fa-solid fa-paper-plane"></i> Submit
+                        </button>
+                    </form>
+                    <% } %>
+
+                    <hr>
+                    <h4>All Reviews</h4>
+                    <div class="review-list">
+                        <% job.reviews.reverse().forEach(review => { %>
+                        <div class="card review-card mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="review-username"><i>@<%= review.author.username %></i></div>
+                                <% if(currUser && review.author._id.equals(currUser._id)) { %>
+                                <form action="/jobs/<%= job._id %>/reviews/<%= review._id %>?_method=delete"
+                                    method="post" class="d-inline">
+                                    <button type="submit"
+                                        class="btn btn-sm btn-danger review-delete-btn d-inline-flex align-items-center">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                                <% } %>
+                            </div>
+                            <p class="review-comment"><%= review.comment %></p>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

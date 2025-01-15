@@ -1,0 +1,41 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+
+<div class="page-container mt-3">
+    <div class="col-8 offset-2">
+        <h2>Leaderboard</h2>
+
+        <% if (userScore !== null) { %>
+        <p>Your score is: <strong><%= userScore %></strong></p>
+        <% } else { %>
+        <p>You haven't participated in this quiz yet.</p>
+        <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>" method="get">
+            <button type="submit" class="btn btn-primary">Start Quiz</button>
+        </form>
+        <% } %>
+
+        <hr>
+        <h4>Top Scores</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% leaderboard.forEach((entry) => { %>
+                <tr>
+                    <td><%= entry.username %></td>
+                    <td><%= entry.score %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>

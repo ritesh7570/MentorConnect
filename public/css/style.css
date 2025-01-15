@@ -1,0 +1,81 @@
+/* General Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Title Styling */
+  h1 {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #343a40;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  /* Video Grid */
+  .video-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  /* Video Styling */
+  video {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button Styling */
+  button {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  button:hover {
+    transform: translateY(-3px);
+  }
+  
+  button:active {
+    background-color: #004085;
+  }
+  
+  /* Call Button */
+  #callButton {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  #callButton:hover {
+    background-color: #218838;
+  }
+  
+  /* End Call Button */
+  #endCallButton {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  #endCallButton:hover {
+    background-color: #c82333;
+  }
+  
+  /* Media Queries for Smaller Screens */
+  @media (max-width: 768px) {
+    video {
+      width: 100%;
+    }
+    .video-grid {
+      flex-direction: column;
+    }
+  }
+  

@@ -1,0 +1,58 @@
+<%- layout("mentor/layouts/boilerplate") %>
+
+
+
+<h1 style="text-align: center; color: #0066cc;">Mentor Dashboard</h1>
+<p style="text-align: center; font-size: 1.2rem;">
+  Welcome,
+  <span id="mentor-name" style="color: #009933; font-weight: bold;"><%= mentorName %></span>!
+</p>
+
+<div id="mentor-content">
+  <!-- Section 1: Groups -->
+  <div class="section" id="groups-section">
+    <h2>My  Groups</h2>
+    <div class="content-container">
+      <% groups.forEach(group => { %>
+        <div class="box">
+          <h3><%= group.name %></h3>
+          <p><%= group.description %></p>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Section 2: Connected Mentees -->
+  <div class="section" id="mentees-section">
+    <h2>Connected Mentees</h2>
+    <div class="content-container">
+      <% mentees.forEach(mentee => { %>
+        <div class="box">
+          <h3><%= mentee.name %></h3>
+          <p><%= mentee.role %></p>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Section 3: Success Stories -->
+  <div class="section" id="stories-section">
+    <h2>Success Stories</h2>
+    <div class="content-container">
+      <% successStories.forEach(story => { %>
+        <div class="box">
+          <h3><%= story.name %></h3>
+          <p><%= story.achievement %></p>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Section 4: Thought of the Day -->
+  <div class="section" id="thought-section">
+    <h2>Thought of the Day</h2>
+    <div class="box">
+      <p><%= thoughtOfTheDay %></p>
+    </div>
+  </div>
+</div>

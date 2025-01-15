@@ -1,0 +1,52 @@
+<%- layout("/mentee/layouts/boilerplate") -%>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Mentors</h1>
+    </div>
+
+    <% if (mentors.length === 0) { %>
+    <div class="alert alert-warning" role="alert">
+        No mentors available at the moment.
+    </div>
+    <% } else { %>
+    <div class="row">
+        <% mentors.forEach(mentor => { %>
+        <div class="col-md-4 mb-4">
+            <div class="card mentor-card">
+                <img src="<%= mentor.coverPhoto || '/image/default-cover.jpg' %>" class="card-img-top" alt="Cover Photo">
+                <div class="card-body text-center">
+                    <img src="<%= mentor.profilePicture || '/image/default-profile.png' %>"
+                        class="profile-photo rounded-circle" alt="<%= mentor.user.username %>">
+                    <h5 class="card-title mt-3"><%= mentor.user.username %></h5>
+                    <p class="card-text">Expertise: <%= mentor.expertise.join(', ') %></p>
+                    <p class="card-text">Experience: <%= mentor.yearsOfExperience %> years</p>
+                    <a href="/mentee/mentors/<%= mentor._id %>" class="btn btn-sm btn-info">View Details</a>
+
+                    <!-- Connection button logic -->
+                    <% if (mentor.connectionStatus === "none") { %>
+                        <form action="/mentee/connections/<%= mentor._id %>/connectRequest" method="POST" class="d-inline-block">
+                            <button type="submit" class="btn btn-sm btn-success">Add Connection</button>
+                        </form>
+                    <% } else if (mentor.connectionStatus === "pending") { %>
+                        <!-- Cancel Pending Request Button -->
+                        <form action="/mentee/connections/<%= mentor._id %>/cancelRequest?_method=delete" method="POST" class="d-inline-block">
+                            <button type="submit" class="btn btn-sm btn-danger">Cancel Request</button>
+                        </form>
+                    <% } else if (mentor.connectionStatus === "accepted") { %>
+                        <button class="btn btn-sm btn-success" disabled>Connected</button>
+                        <a href="/mentee/connections/<%= mentor._id %>/disconnect" class="btn btn-sm btn-info">Disconnect</a>
+
+                        <a href="/mentee/schedule/<%=mentor.user.id  %>" class="btn btn-sm btn-info">schedule</a>
+                  
+                    <% } else { %>
+                        <button class="btn btn-sm btn-danger" disabled>Rejected</button>
+                    <% } %>
+                 
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    <% } %>
+</div>

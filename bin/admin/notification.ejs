@@ -1,0 +1,19 @@
+<%- layout("layouts/boilerplate") -%>
+
+<div class="container">
+    <h1>Notifications</h1>
+    <ul class="list-group">
+        <% if (notifications.length === 0) { %>
+        <li class="list-group-item">You have no notifications.</li>
+        <% } else { %>
+        <% notifications.forEach(notification => { %>
+        <li class="list-group-item <%= notification.isRead ? '' : 'list-group-item-warning' %>">
+            <a href="<%= notification.link %>">
+                <%= notification.message %>
+            </a>
+            <small class="text-muted"><%= new Date(notification.createdAt).toLocaleString() %></small>
+        </li>
+        <% }) %>
+        <% } %>
+    </ul>
+</div>

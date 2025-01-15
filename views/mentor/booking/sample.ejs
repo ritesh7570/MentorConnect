@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FullCalendar with Time-based Scheduling and Event Deletion</title>
+
+  <!-- FullCalendar CSS via jsDelivr CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+
+  <!-- FullCalendar JS via jsDelivr CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+  
+  <!-- jQuery (for event handling) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <!-- Calendar Container -->
+  <div id="calendar"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek', // Time-based view for weekly scheduling
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridWeek,dayGridMonth' // Add week and month view options
+        },
+        events: [
+          {
+            title: 'Sample Event 1',
+            start: '2024-12-15T10:00:00', // Event with a specific time
+            end: '2024-12-15T12:00:00'
+          },
+          {
+            title: 'Sample Event 2',
+            start: '2024-12-15T14:00:00',
+            end: '2024-12-15T16:00:00'
+          }
+        ],
+        editable: true, // Allow drag and drop of events
+        droppable: true, // Allow events to be dropped to a new time slot
+        selectable: true, // Allow users to select time slots
+        select: function(info) {
+          var eventTitle = prompt("Enter event title:");
+          if (eventTitle) {
+            calendar.addEvent({
+              title: eventTitle,
+              start: info.startStr,
+              end: info.endStr
+            });
+          }
+          calendar.unselect(); // Clear selection after event creation
+        },
+        eventClick: function(info) {
+          // Confirm deletion of the event
+          if (confirm("Do you want to delete this event?")) {
+            info.event.remove(); // Remove the event from the calendar
+          }
+        }
+      });
+
+      calendar.render();
+    });
+  </script>
+
+</body>
+</html>

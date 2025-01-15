@@ -1,0 +1,21 @@
+<% layout("/admin/layouts/boilerplate") -%>
+<div class="container mt-5">
+    <h2 class="text-center">Admin Profile</h2>
+
+    <div class="profile-info">
+        <h4>Username: <%= admin.user.username %></h4>
+        <h4>Role: <%= admin.user.role %></h4>
+        <h4>Permissions: <%= admin.permissions.join(", ") %></h4>
+        <h4>Department: <%= admin.department || 'Not specified' %></h4>
+    </div>
+
+    <!-- Show edit and delete options if the logged-in user is the owner -->
+    <% if (isOwner) { %>
+        <div class="profile-actions mt-3">
+            <a href="/admin/profile/edit/<%= admin.user._id %>" class="btn btn-primary">Edit Profile</a>
+            <form action="/admin/profile/delete/<%= admin.user._id %>" method="POST" class="mt-2" onsubmit="return confirm('Are you sure you want to delete your profile?');">
+                <button type="submit" class="btn btn-danger">Delete Profile</button>
+            </form>
+        </div>
+    <% } %>
+</div>

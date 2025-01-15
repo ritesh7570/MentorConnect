@@ -1,0 +1,75 @@
+<% if (userRole === "mentor") { %>
+<%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+<%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+<%- layout("layouts/boilerplate") %>
+<% } %>
+
+<div class="container mt-3 page-container">
+    <div class="quiz-index-header">
+        <!-- Back to Group -->
+        <div class="quiz-index-header-back">
+            <a href="/groups/<%= group._id %>" class="btn btn-secondary d-inline-flex align-items-center">
+                <i class="fa-solid fa-left-long"></i>
+            </a>
+        </div>
+
+        <!-- If the current user is the owner of the group, show Add Quiz button -->
+        <% if(currUser && String(currUser._id) === String(group.owner._id)) { %>
+        <a href="/groups/<%= group._id %>/quizzes/new" class="btn btn-dark d-inline-flex align-items-center">
+            <i class="fa-solid fa-plus"></i> Add Quiz
+        </a>
+        <% } %>
+    </div>
+
+    <br><br>
+
+    <h1 class="text-center">Quizzes for <%= group.title %></h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Available Quizzes:</h3>
+            <div class="quiz-card-container">
+                <% group.quizzes.forEach(quiz => { %>
+                <div class="quiz-card">
+                    <h4 class="quiz-title"><%= quiz.title %></h4>
+                    <p>quiz sub-topic: xyz</p>
+                    <p>quiz sub-topic: xyz</p>
+                    <p>quiz sub-topic: xyz</p>
+                    <p>quiz sub-topic: xyz</p>
+                    <p>quiz sub-topic: xyz</p>
+                    <div class="quiz-actions">
+                        <% if (String(currUser._id) !== String(group.owner._id)) { %>
+                        <!-- For members (but not the owner), show Start and Leaderboard buttons -->
+                        <form action="/groups/<%= group._id %>/quizzes/<%= quiz._id %>" method="get"
+                            style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-play"></i> Start Quiz
+                            </button>
+                        </form>
+                        <a href="/groups/<%= group._id %>/quizzes/<%= quiz._id %>/leaderboard"
+                            class="btn btn-secondary btn-sm">
+                            <i class="fa-solid fa-trophy"></i> Leaderboard
+                        </a>
+                        <% } %>
+
+                        <% if(currUser && String(currUser._id) === String(group.owner._id)) { %>
+                        <!-- For owner, show Edit and Delete buttons for each quiz -->
+                        <a href="/groups/<%= group._id %>/quizzes/<%= quiz._id %>/edit" class="btn btn-info btn-sm">
+                            <i class="fa-solid fa-edit"></i> Edit Quiz
+                        </a>
+                        <form action="/groups/<%= group._id %>/quizzes/<%= quiz._id %>?_method=DELETE" method="POST"
+                            style="display:inline;">
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i> Delete Quiz
+                            </button>
+                        </form>
+                        <% } %>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>

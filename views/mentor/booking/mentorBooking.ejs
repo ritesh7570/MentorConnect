@@ -1,0 +1,45 @@
+<%- layout("mentor/layouts/boilerplate") %>
+
+<!-- Main Container for FullCalendar -->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Mentor Schedule</h1>
+
+            <!-- Calendar Container -->
+            <div id="calendar"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Booking Details -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Booking Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Title:</strong> <span id="modalTitle"></span></p>
+                <p><strong>Start:</strong> <span id="modalStart"></span></p>
+                <p><strong>End:</strong> <span id="modalEnd"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                <p><strong>Reason:</strong> <span id="modalReason"></span></p>
+                <p><strong>Payment Status:</strong> <span id="modalPayment"></span></p>
+                <div id="toggleStatusContainer">
+                    <label for="toggleReason" class="form-label">Cancellation/Restore Reason:</label>
+                    <input type="text" class="form-control" id="toggleReason" placeholder="Enter reason">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="toggleStatusButton">Toggle Status</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include CSS and JS -->
+<link rel="stylesheet" href="/css/mentor/booking/mentorBooking.css">
+<script src="/js/mentor/booking/mentorBooking.js"></script>

@@ -1,0 +1,48 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+
+<div class="page-container mt-3">
+    <div class="col-8 offset-2">
+        <h2>Edit Quiz: <%= quiz.title %></h2>
+        <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>?_method=PUT" method="POST" class="needs-validation"
+            novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label">Quiz Title</label>
+                <input type="text" id="title" name="quiz[title]" class="form-control" value="<%= quiz.title %>"
+                    required>
+            </div>
+
+            <div id="questions-container">
+                <% quiz.questions.forEach((question, index) => { %>
+                <div class="question mb-3">
+                    <label for="question-<%= index %>" class="form-label">Question <%= index + 1 %></label>
+                    <input type="text" id="question-<%= index %>" name="quiz[questions][<%= index %>][questionText]"
+                        class="form-control" value="<%= question.questionText %>" required>
+
+                    <div class="mb-2">
+                        <label class="form-label">Options</label>
+                        <% question.options.forEach((option, optIndex) => { %>
+                        <input type="text" name="quiz[questions][<%= index %>][options][]" class="form-control mb-1"
+                            value="<%= option %>" required>
+                        <% }) %>
+                    </div>
+
+                    <label for="correctAnswer-<%= index %>" class="form-label">Correct Answer (follow zero base
+                        Index)</label>
+                    <input type="number" id="correctAnswer-<%= index %>"
+                        name="quiz[questions][<%= index %>][correctAnswer]" class="form-control"
+                        value="<%= question.correctAnswer %>" required min="0" max="3">
+                    <div class="invalid-feedback">Please enter value from 0 to 3</div>
+                </div>
+                <% }) %>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Quiz</button>
+        </form>
+    </div>
+</div>

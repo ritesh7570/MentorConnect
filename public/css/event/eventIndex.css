@@ -1,0 +1,120 @@
+/* Neon border effect for event cards */
+.event-card {
+  position: relative;
+  border: 1px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.event-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(45deg, #ff0081, #ff8c00, #00d084, #00aaff) border-box;
+  z-index: -1;
+  animation: neonBorder 3s linear infinite;
+}
+
+.event-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+/* Title styling */
+.event-card .card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Text styling */
+.event-card .card-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+/* Organizer and small text */
+.event-card .r1 p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Button styles */
+.event-card .btn {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-like {
+  background-color: #00d084;
+}
+
+.btn-like:hover {
+  background-color: #00b36a;
+}
+
+.btn-unlike {
+  background-color: #ff0081;
+}
+
+.btn-unlike:hover {
+  background-color: #e60077;
+}
+
+.btn-join {
+  background-color: #28a745;
+}
+
+.btn-join:hover {
+  background-color: #218838;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #003d7a);
+}
+
+/* Neon border animation */
+@keyframes neonBorder {
+  0% {
+    border-color: #ff0081;
+  }
+  25% {
+    border-color: #ff8c00;
+  }
+  50% {
+    border-color: #00d084;
+  }
+  75% {
+    border-color: #00aaff;
+  }
+  100% {
+    border-color: #ff0081;
+  }
+}
+
+/* Card image styling */
+.event-card .card-img-top {
+  height: 200px; /* Fixed height */
+  object-fit: cover; /* Maintain aspect ratio */
+  width: 100%; /* Full width */
+}

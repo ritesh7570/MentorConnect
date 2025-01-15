@@ -1,0 +1,180 @@
+<% if (userRole === "mentor") { %>
+<%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+<%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+<%- layout("layouts/boilerplate") %>
+<% } %>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Career Opportunity</h1>
+
+            <div class="d-flex align-items-center mb-4">
+                <%  if(userRole === "mentor") { %>
+                <div class="createJob d-flex">
+                    <a href="/jobs/new" class="btn btn-success mb-3 me-3">Create New Job</a>
+                </div>
+                <%}%>
+                <!-- Search Bar and Job Type Filter -->
+                <div class="search-bar me-3" style="flex: .5;">
+                    <div class="input-group">
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Search jobs by title, location, or salary..." onkeyup="filterJobs()"
+                            style="width: 300px;">
+                    </div>
+                </div>
+
+                <div class="job-type-filters d-flex">
+                    <label class="me-3"><input type="checkbox" id="fullTimeCheckbox" onclick="filterJobs()">
+                        Full-Time</label>
+                    <label class="me-3"><input type="checkbox" id="partTimeCheckbox" onclick="filterJobs()">
+                        Part-Time</label>
+                    <label><input type="checkbox" id="internshipCheckbox" onclick="filterJobs()"> Internship</label>
+                </div>
+            </div>
+
+
+            <!-- Job Cards -->
+            <div class="row" id="jobsContainer">
+                <% jobs.reverse().forEach(job => { %>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 job-card-container">
+                    <div class="job-card">
+                        <div class="card-body">
+                            <div class="upperpart">
+                                <!-- Job Title -->
+                                <h5 class="card-title ct"><%= job.title %></h5>
+
+                                <!-- Job Details with Icons -->
+                                <p class="job-detail">
+                                    <i class="fa fa-building"></i> <%= job.companyName %>
+                                </p>
+                                <p class="job-detail">
+                                    <i class="fa fa-map-marker-alt"></i> <%= job.location %>
+                                </p>
+                                <p class="job-detail">
+                                    <i class="fa fa-briefcase"></i> <%= job.jobType %>
+                                </p>
+                                <p class="job-detail">
+                                    <i class="fa fa-dollar-sign"></i>
+                                    <%= job.salary ? job.salary.toLocaleString() : 'Not specified' %> / month
+                                </p>
+                            </div>
+
+                            <!-- Apply Now button with applyLink -->
+                            <a href="<%= job.applyLink %>" target="_blank" class="btn btn-apply btn-sm mb-2">
+                                Apply Now
+                            </a>
+
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex">
+                                    <!-- Like button -->
+                                    <a href="/jobs/<%= job._id %>/like" class="btn btn-like btn-sm me-2">
+                                        <i class="fa fa-thumbs-up"></i> <%= job.likes.length %>
+                                    </a>
+
+                                    <!-- Comment button -->
+                                    <a href="/jobs/<%= job._id %>/comment" class="btn btn-comment btn-sm me-2">
+                                        <i class="fa fa-comment"></i>
+                                    </a>
+
+                                    <!-- Report button with report count -->
+                                    <a href="/jobs/<%= job._id %>/report" class="btn btn-report btn-sm">
+                                        <%= job.reports.length %> <i class="fa fa-flag"></i>
+                                    </a>
+                                </div>
+
+                                <!-- Read more button -->
+                                <a href="/jobs/<%= job._id %>" class="btn btn-primary btn-sm readmore">
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script to filter jobs -->
+<script>
+    function filterJobs() {
+        const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+        const jobContainers = document.querySelectorAll('.job-card-container');
+        const noResultsMessageId = 'noResultsMessage';  // ID for the no results message element
+
+        const isFullTimeChecked = document.getElementById('fullTimeCheckbox').checked;
+        const isPartTimeChecked = document.getElementById('partTimeCheckbox').checked;
+        const isInternshipChecked = document.getElementById('internshipCheckbox').checked;
+
+        let isNumericSearch = !isNaN(searchInput) && searchInput !== "";
+        let anyVisible = false;  // Flag to check if any job cards are visible
+
+        // Remove existing "No jobs found" message if any
+        const existingMessage = document.getElementById(noResultsMessageId);
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+
+        jobContainers.forEach(container => {
+            const title = container.querySelector('.card-title').textContent.toLowerCase();
+            const location = container.querySelector('.fa-map-marker-alt').parentElement.textContent.toLowerCase();
+            const salary = container.querySelector('.fa-dollar-sign').parentElement.textContent.replace(/[^0-9]/g, '');
+            const jobType = container.querySelector('.fa-briefcase').parentElement.textContent.toLowerCase();
+
+            let matchesSearch = false;
+            let matchesJobType = false;
+
+            // If input is numeric, compare with salary
+            if (isNumericSearch) {
+                const parsedSalary = parseInt(salary, 10);
+                if (parsedSalary && parsedSalary >= parseInt(searchInput)) {
+                    matchesSearch = true;
+                }
+            } else {
+                // Compare with title or location for string search
+                if (title.includes(searchInput) || location.includes(searchInput)) {
+                    matchesSearch = true;
+                }
+            }
+
+            // Check job type if any checkbox is checked
+            if (isFullTimeChecked || isPartTimeChecked || isInternshipChecked) {
+                if (isFullTimeChecked && jobType.includes("full-time")) {
+                    matchesJobType = true;
+                } else if (isPartTimeChecked && jobType.includes("part-time")) {
+                    matchesJobType = true;
+                } else if (isInternshipChecked && jobType.includes("internship")) {
+                    matchesJobType = true;
+                }
+            } else {
+                // If no checkbox is checked, don't filter by job type
+                matchesJobType = true;
+            }
+
+            // Show card only if it matches both search and job type filters
+            if (matchesSearch && matchesJobType) {
+                container.style.display = 'block';
+                anyVisible = true;  // Mark as visible
+            } else {
+                container.style.display = 'none';
+            }
+        });
+
+        // If no jobs are visible, append "No jobs found" message
+        if (!anyVisible) {
+            const noResultsMessage = document.createElement('h4');
+            noResultsMessage.id = noResultsMessageId;
+            noResultsMessage.textContent = 'No jobs found';
+            noResultsMessage.style.textAlign = 'center';
+            noResultsMessage.style.color = 'red';
+
+            // Append the message to the container (e.g., where the jobs are listed)
+            const jobsContainer = document.getElementById('jobsContainer');  // Adjust this selector as needed
+            jobsContainer.appendChild(noResultsMessage);
+        }
+    }
+</script>

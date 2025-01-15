@@ -1,0 +1,35 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+
+<div class="container mt-3">
+    <h1>Create New Group</h1>
+    <form action="/groups" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="name" class="form-label">Group Name</label>
+            <input type="text" id="name" name="group[name]" class="form-control custom-border" required>
+            <div class="invalid-feedback">Please enter the group name.</div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="group[description]" class="form-control custom-border"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="motto" class="form-label">Motto</label>
+            <input type="text" id="motto" name="group[motto]" class="form-control custom-border">
+        </div>
+        <div class="mb-3">
+            <label for="website" class="form-label">Website</label>
+            <input type="url" id="website" name="group[website]" class="form-control custom-border">
+        </div>
+        <div class="mb-3">
+            <label for="contactEmail" class="form-label">Contact Email</label>
+            <input type="email" id="contactEmail" name="group[contactEmail]" class="form-control custom-border">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Group</button>
+    </form>
+</div>

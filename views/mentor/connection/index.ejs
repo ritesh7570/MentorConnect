@@ -1,0 +1,32 @@
+<%- layout("/mentor/layouts/boilerplate") -%>
+
+<div class="container mt-3">
+    <div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Your Mentees</h1>
+        </div>
+
+        <div><button><a href="/mentor/connection/<%=mentorId  %>/pendingRequest">pending Requested Mentee</a></button></div>
+    </div>
+    <% if (connectedMentees.length === 0) { %>
+    <div class="alert alert-info">
+        You haven't connected with any mentee yet.
+    </div>
+    <% } else { %>
+    <div class="list-group">
+        <% connectedMentees.forEach(Mentee => { %>
+<!-- loggedInUsrId: < %=loggedInUserId  %>
+menteeId: < %=Mentee.user._id%> -->
+
+<a href="/chat/<%= loggedInUserId %>/<%=Mentee.user._id%>"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-1"><%= Mentee.user.username %></h5>
+                <!-- <p class="mb-0 text-muted">< %= Mentee.bio.join(", ") %></p> -->
+            </div>
+            <span class="badge badge-primary badge-pill">Chat</span>
+        </a>
+        <% }) %>
+    </div>
+    <% } %>
+</div>

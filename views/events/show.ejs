@@ -1,0 +1,104 @@
+<% if (userRole === "mentor") { %>
+<%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+<%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+<%- layout("layouts/boilerplate") %>
+<% } %>
+
+<div class="container-fluid event-page">
+  <div class="row">
+    <!-- Left Sidebar -->
+    <div class="col-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h5>Event Details</h5>
+        </div>
+        <div class="card-body">
+          <!-- <p><strong>Description:</strong> < %= event.description %></p> -->
+          <p><strong>Date:</strong> <%= event.date.toDateString() %></p>
+          <p><strong>Time:</strong> <%= event.time %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="card-title"><%= event.title %></h1>
+            <p class="card-subtitle text-muted">Organized by: <%= event.organiser.username %></p>
+          </div>
+
+          <!-- Organizer Actions -->
+          <% if (event.organiser._id.equals(currUser._id)) { %>
+          <div class="d-flex gap-2">
+            <a href="/events/<%= event._id %>/edit" class="btn btn-primary btn-sm">
+              <i class="fa fa-edit"></i> Edit
+            </a>
+            <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="d-inline">
+              <button class="btn btn-danger btn-sm">
+                <i class="fa fa-trash"></i> Delete
+              </button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+
+        <div class="card-body">
+          <img class="img-fluid mb-4"
+            src="<%= event.poster?.url || 'https://www.eventsindustryforum.co.uk/images/articles/about_the_eif.jpg' %>"
+            alt="<%= event.title %>" width="900px">
+          <p><%= event.description %></p>
+
+          <% if (event.isOnline) { %>
+          <p><strong>Event Link:</strong> <a href="<%= event.link %>" target="_blank"><%= event.link %></a></p>
+          <% } else { %>
+          <p><strong>Venue:</strong> <%= event.venue %></p>
+          <% } %>
+
+          <!-- Like and Join Actions -->
+          <div class="d-flex gap-2 align-items-center">
+            <h4 class="mb-0">Likes: <%= event.likes.length %></h4>
+            <% if (event.likes.some(like => like.equals(currUser._id))) { %>
+            <a href="/events/<%= event._id %>/like" class="btn btn-danger btn-sm">
+              <i class="fa fa-thumbs-down"></i> Unlike
+            </a>
+            <% } else { %>
+            <a href="/events/<%= event._id %>/like" class="btn btn-primary btn-sm">
+              <i class="fa fa-thumbs-up"></i> Like
+            </a>
+            <% } %>
+
+            <% if (event.joinMembers.some(member => member._id.equals(currUser._id))) { %>
+            <a href="/events/<%= event._id %>/leave" class="btn btn-warning btn-sm">
+              <i class="fa fa-sign-out"></i> Leave Event
+            </a>
+            <% } else { %>
+            <a href="/events/<%= event._id %>/join" class="btn btn-success btn-sm">
+              <i class="fa fa-sign-in"></i> Join Event
+            </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="col-md-2">
+      <h4>Joined Members</h4>
+      <ul class="list-group">
+        <% if (event.joinMembers.length) { %>
+        <% event.joinMembers.forEach(member => { %>
+        <li class="list-group-item">
+          <a href="/users/profile/<%= member._id %>"><%= member.username %></a>
+        </li>
+        <% }) %>
+        <% } else { %>
+        <li class="list-group-item">No members joined yet.</li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</div>

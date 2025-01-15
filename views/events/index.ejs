@@ -1,0 +1,78 @@
+<% if (userRole === "mentor") { %>
+  <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+  <%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+  <%- layout("layouts/boilerplate") %>
+<% } %>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Events</h1>
+    <div>
+      <!-- Filter Dropdown Button -->
+      <div class="btn-group">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="filterMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Filter by Event Type
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterMenuButton">
+          <li><a class="dropdown-item" href="/events?isOnline=true">Online Events</a></li>
+          <li><a class="dropdown-item" href="/events?isOnline=false">Offline Events</a></li>
+          <li><a class="dropdown-item" href="/events">All</a></li>
+        </ul>
+      </div>
+      <!-- Create New Event Button -->
+      <a href="/events/new" class="btn btn-success ms-2">Create New Event</a>
+    </div>
+  </div>
+
+  <% if (events.length === 0) { %>
+    <div class="alert alert-warning" role="alert">
+      No events found.
+    </div>
+  <% } else { %>
+    <div class="row">
+      <% events.reverse().forEach(event => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card event-card">
+            <img class="card-img-top" 
+                 src="<%= event.poster?.url || 'https://www.eventsindustryforum.co.uk/images/articles/about_the_eif.jpg' %>" 
+                 alt="<%= event.title %>" 
+                 style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title"><%= event.title %></h5>
+              <p class="card-text"><%= event.description.substring(0, 100) %>...</p>
+              <p class="card-text">
+                <small class="text-muted">Date: <%= event.date.toDateString() %> | Time: <%= event.time %></small>
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Organized by: <%= event.organiser.username %></small>
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <% if (event.joinMembers.some(member => member.equals(currUser._id))) { %>
+                    <a href="/events/<%= event._id %>/leave" class="btn btn-warning btn-sm">Leave</a>
+                  <% } else { %>
+                    <a href="/events/<%= event._id %>/join" class="btn btn-join btn-sm">Join Event</a>
+                  <% } %>
+                </div>
+                <div>
+                  <% if (event.likes.some(like => like.equals(currUser._id))) { %>
+                    <a href="/events/<%= event._id %>/like" class="btn btn-unlike btn-sm">
+                      <i class="fa fa-thumbs-down"></i> Unlike (<%= event.likes.length %>)
+                    </a>
+                  <% } else { %>
+                    <a href="/events/<%= event._id %>/like" class="btn btn-like btn-sm">
+                      <i class="fa fa-thumbs-up"></i> Like (<%= event.likes.length %>)
+                    </a>
+                  <% } %>
+                </div>
+              </div>
+              <a href="/events/<%= event._id %>" class="btn btn-primary btn-sm mt-2">Show More</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>

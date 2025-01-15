@@ -1,0 +1,104 @@
+/* Neon border effect for group cards */
+.group-card {
+  position: relative;
+  border: 1px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Adjust to fit content */
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem; /* Increased padding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  overflow: hidden;
+  z-index: 1;
+}
+
+.group-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(45deg, #ff0081, #ff8c00, #00d084, #00aaff) border-box;
+  z-index: -1; /* Ensure the pseudo-element is behind the content */
+  animation: neonBorder 3s linear infinite;
+}
+
+.group-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+/* Title styling */
+.card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.card-title a {
+  text-decoration: none;
+  color: #333;
+}
+
+.card-title a:hover {
+  text-decoration: underline;
+}
+
+/* Button styles */
+.btn-group {
+  display: flex;
+  gap: 0.5rem; /* Space between buttons */
+}
+
+.btn-primary {
+  background-color: #28a745; /* Greenish color */
+}
+
+.btn-primary:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.btn-secondary {
+  background: linear-gradient(45deg, #007bff, #0056b3); /* Gradient effect */
+  border: none;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(
+    45deg,
+    #0056b3,
+    #003d7a
+  ); /* Darker gradient on hover */
+}
+
+/* Neon border animation */
+@keyframes neonBorder {
+  0% {
+    border-color: #ff0081;
+  }
+
+  25% {
+    border-color: #ff8c00;
+  }
+
+  50% {
+    border-color: #00d084;
+  }
+
+  75% {
+    border-color: #00aaff;
+  }
+
+  100% {
+    border-color: #ff0081;
+  }
+}

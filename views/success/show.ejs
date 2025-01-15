@@ -1,0 +1,91 @@
+<% if (userRole === "mentor") { %>
+<%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+<%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+<%- layout("layouts/boilerplate") %>
+<% } %>
+<div class="container mt-3 main-container">
+    <div class="row">
+        <!-- Left Box: Main Content -->
+        <div class="col-md-8 d-flex align-items-stretch">
+            <div class="card main-content-box flex-fill">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <a href="/successes" class="btn btn-back d-inline-flex align-items-center">
+                            <i class="fa-solid fa-left-long"></i> Back
+                        </a>
+                        <% if (currUser && currUser._id.equals(successStory.owner._id)) { %>
+                        <div class="btn-group">
+                            <a href="/successes/<%= successStory._id %>/edit" class="btn btn-edit">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </a>
+                            <form action="/successes/<%= successStory._id %>?_method=delete" method="post"
+                                class="d-inline">
+                                <button class="btn btn-delete">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <p class="card-text">Owned by: <i><%= successStory.owner.username %></i></p>
+                    <hr>
+                    <img src="<%=successStory.image.url %>" alt="img" class="img-fluid">
+                    <h1 class="card-title mb-4"><%= successStory.title %></h1>
+                    <p class="lead"><%= successStory.description %></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Box: Comments and Reviews -->
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card comment-section flex-fill">
+                <div class="card-body">
+                    <% if (currUser) { %>
+                    <form action="/successes/<%= successStory._id %>/reviews/" method="post"
+                        class="needs-validation mb-4" novalidate>
+                        <label for="comment" class="form-label">
+                            <h5>Leave a Comment</h5>
+                        </label>
+                        <textarea name="successReview[comment]" class="form-control" id="comment" cols="20" rows="3"
+                            required></textarea>
+                        <div class="invalid-feedback">Please add a comment for the review.</div>
+                        <button type="submit" class="btn btn-submit d-inline-flex align-items-center mt-2">
+                            <i class="fa-solid fa-paper-plane"></i> Submit
+                        </button>
+                    </form>
+                    <% } %>
+
+                    <hr>
+                    <h4>All Reviews</h4>
+                    <div class="review-list">
+                        <% if (successStory.reviews.length > 0) { %>
+                        <% successStory.reviews.reverse().forEach(review => { %>
+                        <div class="card review-card mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="review-username"><i>@<%= review.author.username %></i></div>
+                                <% if (currUser && review.author._id.equals(currUser._id)) { %>
+                                <form
+                                    action="/successes/<%= successStory._id %>/reviews/<%= review._id %>?_method=delete"
+                                    method="post" class="d-inline">
+                                    <button
+                                        class="btn btn-sm btn-danger review-delete-btn d-inline-flex align-items-center">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                                <% } %>
+                            </div>
+                            <p class="review-comment"><%= review.comment %></p>
+                        </div>
+                        <% }) %>
+                        <% } else { %>
+                        <p>No reviews yet.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

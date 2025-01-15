@@ -1,0 +1,38 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="page-container">
+    <h1>Edit Group</h1>
+    <form action="/groups/<%= group._id %>?_method=put" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label> <!-- Changed from title to name -->
+            <input type="text" id="name" name="group[name]" class="form-control custom-border"
+                value="<%= group.name %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="group[description]"
+                class="form-control custom-border"><%= group.description %></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="motto" class="form-label">Motto</label> <!-- Added motto field -->
+            <input type="text" id="motto" name="group[motto]" class="form-control custom-border"
+                value="<%= group.motto %>">
+        </div>
+        <div class="mb-3">
+            <label for="website" class="form-label">Website</label> <!-- Added website field -->
+            <input type="text" id="website" name="group[website]" class="form-control custom-border"
+                value="<%= group.website %>">
+        </div>
+        <div class="mb-3">
+            <label for="contactEmail" class="form-label">Contact Email</label> <!-- Added contact email field -->
+            <input type="email" id="contactEmail" name="group[contactEmail]" class="form-control custom-border"
+                value="<%= group.contactEmail %>">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Group</button>
+    </form>
+</div>

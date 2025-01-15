@@ -1,0 +1,71 @@
+<%- layout("/Mentor/layouts/boilerplate") -%>
+
+<div class="container mt-3">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Pending Mentee Requests</h1>
+    </div>
+
+    <div><button><a href="/mentor/connection"> Go back</a></button></div>
+    <br>
+
+    <!-- Pending Requests List -->
+    <% if (pendingRequests.length === 0) { %>
+        <div class="noRequest">
+            You have no pending mentee requests at the moment.
+        </div>
+    <% } else { %>
+        <div class="list-group" id="pendingRequestsList">
+            <% pendingRequests.forEach(request => { %>
+                <div id="request-<%= request._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <!-- Mentee Info -->
+                    <div>
+                        <h5 class="mb-1"><%= request.mentee.user.username %></h5>
+                        <p class="mb-0 text-muted"><%= request.mentee.bio || "No bio provided" %></p>
+                        <p class="mb-0"><strong>Message:</strong> <%= request.message || "No message provided" %></p>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-success" onclick="handleRequest('<%= request._id %>', 'accept')">Accept</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="handleRequest('<%= request._id %>', 'reject')">Reject</button>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    async function handleRequest(requestId, action) {
+        const reason = action === 'accept' ? "Request accepted." : "Request rejected.";
+        try {
+            const response = await fetch(`/mentor/connection/${action}/${requestId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ reason }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Remove the request element from the DOM
+                document.getElementById(`request-${requestId}`).remove();
+
+                // Check if the list is empty and show a message
+                const list = document.getElementById("pendingRequestsList");
+                if (list.children.length === 0) {
+                    list.innerHTML = `<div class="alert alert-info">
+                        You have  no pending mentee requests at the moment.
+                    </div>`;
+                }
+            } else {
+                alert(result.message || "An error occurred.");
+            }
+        } catch (error) {
+            console.error("Error handling request:", error);
+            alert("An error occurred. Please try again.");
+        }
+    }
+</script>

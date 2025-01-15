@@ -1,0 +1,61 @@
+<% layout("/common/layouts/boilerplate") -%>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Mentor Onboarding</h1>
+  
+  <!-- Onboarding Form -->
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <form action="/onboarding" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        
+        <!-- Expertise Field -->
+        <div class="mb-3">
+          <label for="expertise" class="form-label">Industry Expertise (e.g., MERN, React, Node.js)</label>
+          <input type="text" class="form-control" id="expertise" name="expertise" required>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Expertise is required.</div>
+        </div>
+        
+        <!-- Years of Experience Field -->
+        <div class="mb-3">
+          <label for="yearsOfExperience" class="form-label">Years of Experience</label>
+          <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience" required>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Years of experience are required.</div>
+        </div>
+        
+        <!-- Experience Certificate Upload -->
+        <div class="mb-3">
+          <label for="experienceCertificate" class="form-label">Upload Experience Certificate</label>
+          <input type="file" class="form-control" id="experienceCertificate" name="experienceCertificate" required>
+          <div class="invalid-feedback">Certificate upload is required.</div>
+        </div>
+        
+        <!-- Calendly Connection -->
+        <div class="mb-3">
+          <label for="calendlyConnect" class="form-label">Calendly Connection</label>
+          <div id="calendlyStatus">
+            <button id="connectCalendly" type="button" class="btn btn-primary">Connect Calendly</button>
+          </div>
+          <input type="hidden" id="calendlyToken" name="calendlyToken">
+          <div class="invalid-feedback">Connecting Calendly is required.</div>
+        </div>
+        
+        <button type="submit" class="btn btn-success" id="submitButton" disabled>Submit Onboarding</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Connect to Calendly
+  document.getElementById("connectCalendly").addEventListener("click", () => {
+    window.location.href = "/auth/calendly"; // Redirect to Calendly OAuth2 flow
+  });
+
+  // Enable submit button if Calendly is connected
+  const calendlyToken = document.getElementById("calendlyToken");
+  if (calendlyToken.value) {
+    document.getElementById("submitButton").disabled = false;
+  }
+</script>

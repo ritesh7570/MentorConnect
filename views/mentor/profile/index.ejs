@@ -1,0 +1,109 @@
+<% layout("/mentor/layouts/boilerplate") -%>
+<div class="container mt-5">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="photo">
+      <div class="photo-wrapper">
+        <img
+          src="<%= mentor.profilePicture || '/image/mentor/default-profile-for-mentor.jpg' %>"
+          alt="No Image found"
+          class="profile-picture"
+        />
+        <label for="profile-picture-input" class="edit-icon-wrapper">
+          <i class="fas fa-edit edit-icon"></i>
+        </label>
+        <input
+          type="file"
+          id="profile-picture-input"
+          class="profile-picture-input"
+          accept="image/*"
+        />
+      </div>
+    </div>
+    <div class="username-content">
+      <h2><%= mentor.user.username %></h2>
+      <p class="text-muted">
+        <%= mentor.jobTitle || 'No job title provided' %> at <%= mentor.employer || 'No employer listed' %>
+      </p>
+      <p class="text-muted"><%= mentor.city %>, <%= mentor.country %></p>
+      <% if (mentor.isStarMentor) { %>
+      <span class="badge bg-warning text-dark">Star Mentor</span>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Profile Details -->
+  <div class="profile-info mt-4">
+    <h4>About</h4>
+    <p><%= mentor.user.bio || 'No bio available' %></p>
+
+    <h4>Contact</h4>
+    <ul class="list-unstyled">
+      <% if (mentor.linkedIn) { %>
+      <li>
+        <strong>LinkedIn:</strong>
+        <a href="<%= mentor.linkedIn %>" target="_blank"><%= mentor.linkedIn %></a>
+      </li>
+      <% } %>
+      <% if (mentor.twitter) { %>
+      <li>
+        <strong>Twitter:</strong>
+        <a href="<%= mentor.twitter %>" target="_blank"><%= mentor.twitter %></a>
+      </li>
+      <% } %>
+      <% if (mentor.github) { %>
+      <li>
+        <strong>GitHub:</strong>
+        <a href="<%= mentor.github %>" target="_blank"><%= mentor.github %></a>
+      </li>
+      <% } %>
+      <% if (mentor.portfolio) { %>
+      <li>
+        <strong>Portfolio:</strong>
+        <a href="<%= mentor.portfolio %>" target="_blank"><%= mentor.portfolio %></a>
+      </li>
+      <% } %>
+    </ul>
+
+    <h4>Expertise</h4>
+    <p><%= mentor.expertise.length ? mentor.expertise.join(", ") : 'No expertise listed' %></p>
+
+    <h4>Professional Details</h4>
+    <ul class="list-unstyled">
+      <li>
+        <strong>Years of Experience:</strong> <%= mentor.yearsOfExperience || 'N/A' %>
+      </li>
+      <li>
+        <strong>Graduation Year:</strong> <%= mentor.graduationYear || 'N/A' %>
+      </li>
+      <li><strong>Degree:</strong> <%= mentor.degree || 'N/A' %></li>
+      <li><strong>Department:</strong> <%= mentor.department || 'N/A' %></li>
+      <li><strong>Industry:</strong> <%= mentor.industry || 'N/A' %></li>
+    </ul>
+
+    <h4>Skills</h4>
+    <p><%= mentor.skills.length ? mentor.skills.join(", ") : 'No skills listed' %></p>
+
+    <h4>Projects</h4>
+    <ul>
+      <% if (mentor.projects.length) { %>
+      <% mentor.projects.forEach(project => { %>
+      <li><%= project %></li>
+      <% }) %>
+      <% } else { %>
+      <li>No projects listed</li>
+      <% } %>
+    </ul>
+
+    <h4>Achievements</h4>
+    <ul>
+      <% if (mentor.achievements.length) { %>
+      <% mentor.achievements.forEach(achievement => { %>
+      <li><%= achievement %></li>
+      <% }) %>
+      <% } else { %>
+      <li>No achievements listed</li>
+      <% } %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,204 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.login-page, .container {
+  min-height: 100%;
+  flex: 1;
+}
+
+/* Header */
+header {
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between; /* Keeps logo on the left and buttons on the right */
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Logo Animation */
+.logo a {
+  display: block;
+  width: 150px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo a:hover {
+  transform: scale(1.1);
+}
+
+.logo img {
+  width: 100%;
+}
+
+/* Navigation Bar */
+.navbar2 {
+  flex: 1; /* Allows navbar to take up available space */
+  display: flex;
+  justify-content: center; /* Centers navigation links */
+  align-items: center;
+}
+
+.nav-links2 {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links2 li {
+  margin: 0 15px; /* Adds spacing between navigation items */
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
+}
+
+.nav-links2 a {
+  text-decoration: none;
+  color: #000;
+  transition: all 0.3s ease-in-out;
+  padding: 8px 15px; /* Proper padding for buttons */
+  border-radius: 4px;
+  font-size: 16px;
+  display: inline-block; /* Ensures proper block-level alignment */
+  max-width: 150px; /* Optional: Set max-width to prevent oversized text */
+  text-overflow: ellipsis; /* Truncate text if it's too long */
+  overflow: hidden;
+}
+
+.nav-links2 a:hover {
+  color: white;
+  background-color: #007bff;
+  transform: scale(1.05);
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  /* margin-left: 30px; */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds spacing between buttons */
+  white-space: nowrap; /* Prevents buttons from breaking into multiple lines */
+}
+
+.login-btn, .register-btn {
+  padding: 8px 15px; /* Adjusted padding for better fit */
+  font-size: 14px; /* Slightly smaller font size */
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+
+.login-btn {
+  background-color: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.login-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.register-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.register-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Add margin to the logout button to avoid clipping */
+.auth-buttons .login-btn:last-child { 
+  margin-right: 30px; /* Increase margin to make sure it's fully visible */
+}
+
+/* Mobile Menu */
+.hamburger-menu {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.mobile-menu.open {
+  right: 0;
+}
+
+.mobile-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.mobile-nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  padding: 10px;
+  display: block;
+  transition: all 0.3s ease-in-out;
+  border-radius: 4px;
+}
+
+.mobile-nav-links a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.mobile-auth-buttons .login-btn, .mobile-auth-buttons .register-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-links2, .auth-buttons {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .logo a {
+    width: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo a {
+    width: 100px;
+  }
+
+  .mobile-nav-links a {
+    font-size: 16px;
+  }
+}

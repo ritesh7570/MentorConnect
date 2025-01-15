@@ -1,0 +1,66 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+    <%- layout("layouts/boilerplate") %>
+<% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-6 offset-3">
+            <!-- Back to Posts with Icon -->
+            <a href="/successes" class="btn btn-secondary d-inline-flex align-items-center">
+                <i class="fa-solid fa-left-long"></i> Back to Posts
+            </a>
+            <br><br>
+            <h3 class="text-center">Create New Success Story</h3>
+            <form action="/successes" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="success[title]" class="form-control"
+                        placeholder="Add a catchy title" required>
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Please enter a title for the story.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea id="content" name="success[description]" class="form-control" rows="4"
+                        placeholder="Write your post content here" required></textarea>
+                    <div class="invalid-feedback">Please enter your story.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" id="image" name="success[image]" class="form-control" accept=".jpg, .png, .jpeg"
+                        required>
+                    <div class="invalid-feedback">Please select an image for your story.</div>
+                </div>
+
+                <button type="submit" class="btn btn-dark add-btn mt-3">
+                    <i class="fa-solid fa-plus"></i> Create Success
+                </button>
+                <br><br>
+            </form>
+            <a href="/successes" class="btn btn-secondary mt-3">Back</a>
+        </div>
+    </div>
+</div>
+<!-- 
+<script>
+    // Example for Bootstrap 5 custom validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script> -->

@@ -1,0 +1,149 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px; /* Increased margin for spacing */
+}
+
+.photo {
+    flex-shrink: 0;
+    margin-right: 25px;
+}
+
+.photo-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-icon-wrapper {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.photo-wrapper:hover .edit-icon-wrapper {
+    visibility: visible;
+    opacity: 1;
+}
+
+.profile-picture-input {
+    display: none;
+}
+
+/* Profile Info Section */
+.profile-info h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 20px;
+    color: #333;
+    position: relative;
+    padding-top: 10px; /* Add some space for the line */
+}
+
+.profile-info h4::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px; /* Thin line */
+    background-color: #007bff; /* Blue color */
+}
+
+.profile-info p,
+.profile-info ul {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.profile-info ul {
+    padding-left: 20px;
+}
+
+.profile-info li {
+    margin-bottom: 10px;
+}
+
+.profile-info strong {
+    color: #333;
+}
+
+.profile-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.profile-info a:hover {
+    text-decoration: underline;
+}
+
+/* Badge */
+.badge {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .photo {
+        margin-bottom: 15px;
+    }
+
+    .username-content {
+        margin-top: 10px;
+        text-align: center;
+    }
+}

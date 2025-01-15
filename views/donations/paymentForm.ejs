@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Gateway</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .gateway-container {
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                width: 100%;
+            }
+
+            h2 {
+                color: #333;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .input-group {
+                margin-bottom: 15px;
+            }
+
+            .input-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .input-group input[type="number"],
+            .input-group input[type="text"],
+            .input-group input[type="email"] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            .payment-methods {
+                display: flex;
+                justify-content: space-around;
+                margin: 20px 0;
+            }
+
+            .payment-method {
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .payment-method i {
+                font-size: 2rem;
+                color: #007bff;
+            }
+
+            .payment-method p {
+                margin-top: 10px;
+                font-weight: bold;
+            }
+
+            .pay-button {
+                width: 100%;
+                padding: 15px;
+                background-color: #28a745;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            .pay-button:hover {
+                background-color: #218838;
+            }
+
+            .thank-you-message {
+                display: none;
+                text-align: center;
+                margin-top: 20px;
+                font-size: 20px;
+                color: #28a745;
+            }
+
+            .payment-details {
+                display: none;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="gateway-container">
+            <h2>Payment Gateway</h2>
+            <!-- Form starts here -->
+            <form id="paymentForm" action="/api/payment/<%= donationId %>" method="POST">
+                <div class="input-group">
+                    <div class="input-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="fullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" name="donationTitle" value="Sample Event" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPaymentMethod('UPI')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <p>UPI</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('Credit Card')">
+                        <i class="fas fa-credit-card"></i>
+                        <p>Credit Card</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('Debit Card')">
+                        <i class="fas fa-university"></i>
+                        <p>Debit Card</p>
+                    </div>
+                </div>
+
+                <input type="hidden" id="payment-method" name="paymentMethod" value="">
+
+                <div class="payment-details" id="upiDetails">
+                    <div class="input-group">
+                        <label for="upi-id">UPI ID</label>
+                        <input type="text" id="upi-id" name="upiId" placeholder="Enter your UPI ID">
+                    </div>
+                </div>
+
+                <div class="payment-details" id="creditCardDetails">
+                    <div class="input-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" name="cardNumber"
+                            placeholder="Enter your credit card number">
+                    </div>
+                    <div class="input-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY">
+                    </div>
+                    <div class="input-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="Enter CVV">
+                    </div>
+                </div>
+
+                <div class="payment-details" id="debitCardDetails">
+                    <div class="input-group">
+                        <label for="debit-card-number">Card Number</label>
+                        <input type="text" id="debit-card-number" name="debitCardNumber"
+                            placeholder="Enter your debit card number">
+                    </div>
+                    <div class="input-group">
+                        <label for="debit-expiry-date">Expiry Date</label>
+                        <input type="text" id="debit-expiry-date" name="debitExpiryDate" placeholder="MM/YY">
+                    </div>
+                    <div class="input-group">
+                        <label for="debit-cvv">CVV</label>
+                        <input type="text" id="debit-cvv" name="debitCvv" placeholder="Enter CVV">
+                    </div>
+                </div>
+
+                <button class="pay-button" type="submit">Pay Now</button>
+            </form>
+            <!-- Form ends here -->
+        </div>
+
+        <script>
+            let selectedPaymentMethod = '';
+
+            function selectPaymentMethod(method) {
+                selectedPaymentMethod = method;
+                document.getElementById('payment-method').value = method;
+                document.getElementById('upiDetails').style.display = 'none';
+                document.getElementById('creditCardDetails').style.display = 'none';
+                document.getElementById('debitCardDetails').style.display = 'none';
+
+                if (method === 'UPI') {
+                    document.getElementById('upiDetails').style.display = 'block';
+                } else if (method === 'Credit Card') {
+                    document.getElementById('creditCardDetails').style.display = 'block';
+                } else if (method === 'Debit Card') {
+                    document.getElementById('debitCardDetails').style.display = 'block';
+                }
+            }
+
+            // Form submission event
+            document.getElementById('paymentForm').addEventListener('submit', function (event) {
+                const paymentMethod = document.getElementById('payment-method').value;
+                if (!paymentMethod) {
+                    alert('Please select a payment method.');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        </script>
+    </body>
+
+</html>

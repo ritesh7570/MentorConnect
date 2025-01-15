@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.body-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  width: 250px; /* Sidebar width */
+  background-color: #f4f4f4; /* Sidebar background color */
+  padding: 20px;
+  position: fixed; /* Fixed sidebar */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.right {
+  margin-left: 250px; /* Offset content by sidebar width */
+  padding: 20px;
+  padding-top: 80px; /* Adjust for fixed navbar height */
+  width: 100%;
+  background-color: #ffffff; /* Main content background */
+  overflow-y: auto; /* To handle overflow of content */
+}
+
+.container {
+  margin-top: 20px; /* Adjust for spacing above the content */
+}
+
+h1, h2 {
+  margin-bottom: 15px; /* Adjust spacing below headers */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Add space above table */
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd; /* Border for table cells */
+}
+
+th {
+  background-color: #f4f4f4; /* Table header background color */
+}
+
+button {
+  margin: 5px;
+}
+
+form {
+  display: inline-block;
+}
+
+.mt-4 {
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .body-container {
+    flex-direction: column;
+  }
+
+  .left {
+    position: static;
+    width: 100%; /* Sidebar full width on smaller screens */
+    padding: 10px;
+  }
+
+  .right {
+    margin-left: 0;
+    padding: 10px;
+    padding-top: 60px; /* Adjust top padding for smaller screens */
+  }
+
+  .container {
+    margin-top: 10px; /* Adjust margin for smaller screens */
+  }
+
+  table {
+    font-size: 14px; /* Reduce font size for small screens */
+  }
+
+  h1, h2 {
+    font-size: 18px; /* Reduce header font size for small screens */
+  }
+}
+

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Gateway</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .gateway-container {
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                width: 100%;
+            }
+
+            h2 {
+                color: #333;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .input-group {
+                margin-bottom: 15px;
+            }
+
+            .input-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .input-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            .payment-methods {
+                display: flex;
+                justify-content: space-around;
+                margin: 20px 0;
+            }
+
+            .payment-method {
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .payment-method i {
+                font-size: 2rem;
+                color: #007bff;
+            }
+
+            .payment-method p {
+                margin-top: 10px;
+                font-weight: bold;
+            }
+
+            .pay-button {
+                width: 100%;
+                padding: 15px;
+                background-color: #28a745;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            .pay-button:hover {
+                background-color: #218838;
+            }
+
+            .payment-details {
+                display: none;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="gateway-container">
+            <h2>Payment Gateway</h2>
+            <form id="paymentForm" action="/slot/payment/<%= bookingId %>" method="POST">
+                <div class="input-group">
+                    <label for="total-price">Total Price</label>
+                    <input type="text" id="total-price" name="totalPrice" value="<%= totalPrice %>" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="mentee-id">Mentee ID</label>
+                    <input type="text" id="mentee-id" name="menteeUserId" value="<%= menteeUserId %>" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="mentor-id">Mentor ID</label>
+                    <input type="text" id="mentor-id" name="mentorUserId" value="<%= mentorUserId %>" readonly>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPaymentMethod('UPI')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <p>UPI</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('Credit Card')">
+                        <i class="fas fa-credit-card"></i>
+                        <p>Credit Card</p>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('Debit Card')">
+                        <i class="fas fa-university"></i>
+                        <p>Debit Card</p>
+                    </div>
+                </div>
+                <input type="hidden" id="payment-method" name="paymentMethod" value="">
+
+                <div class="payment-details" id="upiDetails">
+                    <div class="input-group">
+                        <label for="upi-id">UPI ID</label>
+                        <input type="text" id="upi-id" name="upiId" placeholder="Enter your UPI ID">
+                    </div>
+                </div>
+
+                <div class="payment-details" id="creditCardDetails">
+                    <div class="input-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" name="cardNumber"
+                            placeholder="Enter your credit card number">
+                    </div>
+                    <div class="input-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY">
+                    </div>
+                    <div class="input-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="Enter CVV">
+                    </div>
+                </div>
+
+                <div class="payment-details" id="debitCardDetails">
+                    <div class="input-group">
+                        <label for="debit-card-number">Card Number</label>
+                        <input type="text" id="debit-card-number" name="debitCardNumber"
+                            placeholder="Enter your debit card number">
+                    </div>
+                    <div class="input-group">
+                        <label for="debit-expiry-date">Expiry Date</label>
+                        <input type="text" id="debit-expiry-date" name="debitExpiryDate" placeholder="MM/YY">
+                    </div>
+                    <div class="input-group">
+                        <label for="debit-cvv">CVV</label>
+                        <input type="text" id="debit-cvv" name="debitCvv" placeholder="Enter CVV">
+                    </div>
+                </div>
+
+                <button class="pay-button" type="button" onclick="proceedToPay()">Proceed to Pay</button>
+            </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function selectPaymentMethod(method) {
+                document.getElementById('payment-method').value = method;
+                document.getElementById('upiDetails').style.display = 'none';
+                document.getElementById('creditCardDetails').style.display = 'none';
+                document.getElementById('debitCardDetails').style.display = 'none';
+
+                if (method === 'UPI') {
+                    document.getElementById('upiDetails').style.display = 'block';
+                } else if (method === 'Credit Card') {
+                    document.getElementById('creditCardDetails').style.display = 'block';
+                } else if (method === 'Debit Card') {
+                    document.getElementById('debitCardDetails').style.display = 'block';
+                }
+            }
+
+            function proceedToPay() {
+                const paymentMethod = document.getElementById('payment-method').value;
+
+                if (!paymentMethod) {
+                    alert('Please select a payment method.');
+                    return;
+                }
+
+                if (paymentMethod === 'UPI' && !document.getElementById('upi-id').value.trim()) {
+                    alert('Please enter your UPI ID.');
+                    return;
+                }
+
+                if (
+                    (paymentMethod === 'Credit Card' && (!document.getElementById('card-number').value.trim() ||
+                        !document.getElementById('expiry-date').value.trim() ||
+                        !document.getElementById('cvv').value.trim())) ||
+                    (paymentMethod === 'Debit Card' && (!document.getElementById('debit-card-number').value.trim() ||
+                        !document.getElementById('debit-expiry-date').value.trim() ||
+                        !document.getElementById('debit-cvv').value.trim()))
+                ) {
+                    alert('Please fill in all required fields for your card.');
+                    return;
+                }
+
+                document.getElementById('paymentForm').submit();
+            }
+        </script>
+    </body>
+
+</html>

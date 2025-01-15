@@ -1,0 +1,49 @@
+
+/* footer styling */
+    .footer {
+      background-color: #f0f0f0;
+      padding: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      /* Allow columns to wrap if needed */
+      box-sizing: border-box;
+      /* Include padding in width calculations */
+    }
+  
+    .footer-column {
+      flex: 1;
+      min-width: 150px;
+      /* Ensure columns don't shrink too much */
+      margin: 10px;
+      /* Space between columns */
+    }
+  
+    .footer-column h3 {
+      margin-top: 0;
+    }
+  
+    .footer-column ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+  
+    .footer-column a {
+      text-decoration: none;
+      color: #000;
+      font-size: 16px;
+    }
+  
+    .footer-column a:hover {
+      text-decoration: underline;
+    }
+  
+    .social-icons img {
+      width: 30px;
+      margin-right: 10px;
+      vertical-align: middle;
+      /* Align icons with text */
+    }

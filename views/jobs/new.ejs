@@ -1,0 +1,72 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+<% } else { %>
+    <%- layout("layouts/boilerplate") %>
+<% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-md-8 offset-md-2">
+            <!-- Back to Jobs with Icon -->
+            <a href="/jobs" class="btn btn-secondary d-inline-flex align-items-center">
+                <i class="fa-solid fa-left-long"></i>
+                Back to Jobs
+            </a>
+            <br><br>
+            <h1>Create New Job Listing</h1>
+            <form action="/jobs" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="job[title]" class="form-control" placeholder="Enter job title"
+                        required>
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Please enter a title.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" id="salary" name="job[salary]" class="form-control" placeholder="Enter salary"
+                        required>
+                    <div class="invalid-feedback">Please enter the salary.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" name="job[location]" class="form-control"
+                        placeholder="Enter location" required>
+                    <div class="invalid-feedback">Please enter the location.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jobType" class="form-label">Job Type</label>
+                    <select id="jobType" name="job[jobType]" class="form-select" required>
+                        <option value="" disabled selected>Select job type</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a job type.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="companyName" class="form-label">Company Name</label>
+                    <input type="text" id="companyName" name="job[companyName]" class="form-control"
+                        placeholder="Enter company name" required>
+                    <div class="invalid-feedback">Please enter the company name.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="applyLink" class="form-label">Apply Link</label>
+                    <input type="url" id="applyLink" name="job[applyLink]" class="form-control"
+                        placeholder="Enter application link" required>
+                    <div class="invalid-feedback">Please enter the application link.</div>
+                </div>
+
+                <button type="submit" class="btn btn-dark add-btn mt-3">
+                    <i class="fa-solid fa-plus"></i> Create Job
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

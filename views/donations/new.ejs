@@ -1,0 +1,69 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-lg-6 offset-lg-3">
+            <!-- Back to Donations with Icon -->
+            <a href="/donations" class="btn btn-secondary d-inline-flex align-items-center mb-3">
+                <i class="fa-solid fa-left-long"></i> Back to Donations
+            </a>
+            <h3>Create New Donation</h3>
+
+            <!-- Start Form -->
+            <form action="/donations" method="POST" class="needs-validation" novalidate>
+                <!-- Title Input -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="donation[title]" class="form-control"
+                        placeholder="Enter donation title" required minlength="5" maxlength="200">
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Please enter a valid title (5-200 characters).</div>
+                </div>
+
+                <!-- Description Input -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="donation[description]" class="form-control"
+                        placeholder="Enter description" rows="3" required minlength="1" maxlength="1000"></textarea>
+                    <div class="invalid-feedback">Please enter a description (up to 1000 characters).</div>
+                </div>
+
+                <!-- Emergency Checkbox -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="isEmergency" name="donation[isEmergency]"
+                        value="true">
+                    <label class="form-check-label" for="isEmergency">
+                        Mark as Emergency
+                    </label>
+                </div>
+
+                <!-- Fundraising Goal Input -->
+                <div class="mb-3">
+                    <label for="fundraisingGoal" class="form-label">Fundraising Goal (Optional)</label>
+                    <input type="number" id="fundraisingGoal" name="donation[fundraisingGoal]" class="form-control"
+                        placeholder="Enter fundraising goal" min="0">
+                    <div class="invalid-feedback">Please enter a valid fundraising goal.</div>
+                </div>
+
+                <!-- Deadline Date Input -->
+                <div class="mb-3">
+                    <label for="deadlineDate" class="form-label">Deadline Date (Optional)</label>
+                    <input type="date" id="deadlineDate" name="donation[deadlineDate]" class="form-control">
+                    <div class="invalid-feedback">Please select a valid deadline date.</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-dark add-btn mt-3">
+                    <i class="fa-solid fa-plus"></i> Create Donation
+                </button>
+            </form>
+            <!-- End Form -->
+        </div>
+    </div>
+</div>
+

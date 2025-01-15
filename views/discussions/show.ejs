@@ -1,0 +1,100 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-12 col-md-8 offset-md-2">
+            <!-- Flex container for Back, Edit, and Delete buttons -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <!-- Back to Posts with Icon -->
+                <a href="/discussions" class="btn btn-back d-inline-flex align-items-center">
+                    <i class="fa-solid fa-left-long"></i>
+                </a>
+
+                <!-- Edit and Delete buttons -->
+                <% if(currUser && currUser._id.equals(discussion.owner._id)){ %>
+                <div class="d-flex align-items-center">
+                    <a href="/discussions/<%=discussion._id%>/edit"
+                        class="btn btn-edit me-2 d-inline-flex align-items-center">
+                        <i class="fa-solid fa-edit"></i>
+                    </a>
+                    <form action="/discussions/<%=discussion._id%>?_method=delete" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-delete d-inline-flex align-items-center">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Post Details -->
+            <p class="card-text">Owned by: <i><%=discussion.owner._id %></i></p>
+            <h1><%= discussion.title %></h1><br>
+            <p class="lead"><%= discussion.description %></p>
+            <p class="lead"><strong>Query Type:</strong> <%= discussion.queryType %></p>
+
+            <% if(currUser){ %>
+            <div id="comment-section">
+                <form action="/discussions/<%= discussion._id %>/reviews" method="post" class="needs-validation" novalidate>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">
+                            <h5>Leave a Comment</h5>
+                        </label>
+                        <textarea name="review[comment]" class="form-control" id="comment" rows="3" required></textarea>
+                        <div class="invalid-feedback">Please add some comment for review.</div>
+                    </div>
+                    <button type="submit" class="btn btn-submit d-inline-flex align-items-center">
+                        <i class="fa-solid fa-paper-plane"></i> Submit
+                    </button>
+                </form>
+            </div>
+            <% } %>
+        </div>
+
+        <div class="col-12 col-md-8 offset-md-2 mb-3">
+            <hr>
+            <h4>All Reviews</h4>
+            <div class="row">
+                <% discussion.reviews.forEach(review => { %>
+                <div class="card col-12 col-md-5 ms-3 mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="card-title username"><i>@<%=review.author.username %></i></div>
+                            <% if(currUser && review.author._id.equals(currUser._id)) {%>
+                            <form action="/discussions/<%=discussion._id%>/reviews/<%=review._id%>?_method=delete"
+                                method="post" class="d-inline">
+                                <button type="submit"
+                                    class="btn btn-sm btn-review-delete d-inline-flex align-items-center">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                            <% } %>
+                        </div>
+                        <p class="card-text comment-text"><%=review.comment %></p>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.location.hash === '#comment-section') {
+            document.getElementById('comment-section').scrollIntoView({ behavior: 'smooth' });
+
+            setTimeout(function () {
+                const commentInput = document.getElementById('comment');
+                if (commentInput) {
+                    commentInput.focus();
+                }
+            }, 1);
+        }
+    });
+</script>

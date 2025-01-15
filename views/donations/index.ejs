@@ -1,0 +1,51 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Donations</h1>
+            <div class="mb-3">
+                <a href="/donations/new" class="btn btn-success mb-3">Create New Donation</a>
+                <a href="/donations" class="btn btn-secondary mb-3 me-2">All Donations</a>
+                <a href="/donations?filter=emergency" class="btn btn-danger mb-3">Emergency Donations</a>
+            </div>
+            <div class="row justify-content-center">
+                <% donations.reverse().forEach(donation => { %>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="donation-card">
+                        <div class="card-body">
+                            <div class="upperpart">
+                                <h5 class="card-title">
+                                    <%= donation.title %>
+                                    <% if(donation.isEmergency) { %>
+                                    <!-- Replacing text with Font Awesome icon for emergency -->
+                                    <i class="fa-solid fa-triangle-exclamation text-danger ms-2"></i>
+                                    <% } %>
+                                </h5>
+                                <p class="card-text">Description: <%= donation.description %></p>
+                                <p class="card-text">Goal: $<%= donation.fundraisingGoal %></p>
+                                <p class="card-text">Collected: $<%= donation.totalCollection %></p>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                                <form action="/api/payment/<%= donation._id  %>" method="get" class="me-2">
+                                    <button type="submit" class="btn btn-primary mt-2">
+                                        <i class="fa fa-donate"></i> Donate
+                                    </button>
+                                </form>
+                                <a href="/donations/<%= donation._id %>" class="btn btn-info mt-2">
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>

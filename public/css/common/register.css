@@ -1,0 +1,27 @@
+/* body{
+    background-color: black;
+} */
+
+.role-selection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.role-selection .form-label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.role-selection input[type="radio"] {
+    margin-right: 5px;
+}
+
+.role-selection label {
+    margin-right: 20px;
+    cursor: pointer;
+}

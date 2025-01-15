@@ -1,0 +1,55 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-6 offset-3">
+            <!-- Back to Posts with Icon -->
+            <a href="/discussions" class="btn btn-secondary d-inline-flex align-items-center">
+                <i class="fa-solid fa-left-long"></i> Back to Posts
+            </a>
+            <br><br>
+            <h3>Edit Post</h3>
+            <form action="/discussions/<%= discussion._id %>?_method=PUT" method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="discussion[title]" class="form-control"
+                        value="<%= discussion.title %>" required>
+                    <div class="invalid-feedback">Please enter a title.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Content</label>
+                    <textarea id="description" name="discussion[description]" class="form-control" rows="4"
+                        required><%= discussion.description %></textarea>
+                    <div class="invalid-feedback">Please enter the content.</div>
+                </div>
+
+                <!-- Query Type Dropdown -->
+                <div class="mb-3">
+                    <label for="queryType" class="form-label">Query Type</label>
+                    <select id="queryType" name="discussion[queryType]" class="form-select" required>
+                        <option value="Job" <%= discussion.queryType === 'Job' ? 'selected' : '' %>>Job</option>
+                        <option value="Internship" <%= discussion.queryType === 'Internship' ? 'selected' : '' %>>Internship</option>
+                        <option value="General Query" <%= discussion.queryType === 'General Query' ? 'selected' : '' %>>General Query</option>
+                        <option value="Life Update" <%= discussion.queryType === 'Life Update' ? 'selected' : '' %>>Life Update</option>
+                        <option value="Achievement" <%= discussion.queryType === 'Achievement' ? 'selected' : '' %>>Achievement</option>
+                        <option value="Pledge" <%= discussion.queryType === 'Pledge' ? 'selected' : '' %>>Pledge</option>
+                        <option value="Technical Query" <%= discussion.queryType === 'Technical Query' ? 'selected' : '' %>>Technical Query</option>
+                        <option value="Notes" <%= discussion.queryType === 'Notes' ? 'selected' : '' %>>Notes</option>
+                        <option value="Other" <%= discussion.queryType === 'Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a query type.</div>
+                </div>
+
+                <button class="btn btn-dark add-btn mt-3" type="submit">
+                    <i class="fa-solid fa-pen"></i> Update Post
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

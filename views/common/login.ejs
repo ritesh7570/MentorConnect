@@ -1,0 +1,57 @@
+<% layout("/common/layouts/boilerplate") -%>
+<div class="row mt-3 login-page">
+    <h1 class="col-6 offset-3">Login</h1>
+    <div class="col-6 offset-3">
+        <!-- Login Form -->
+        <form id="loginForm" action="/auth/login" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Enter your name"
+                    required>
+                <div class="invalid-feedback">Username is required</div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="loginPassword" name="password"
+                    placeholder="Enter your password" required>
+                <div class="invalid-feedback">Password is required</div>
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+            <button type="button" id="forgetPasswordBtn" class="btn btn-danger">Forget Password</button>
+        </form>
+
+        <!-- Forget Password Form -->
+        <form id="forgetPasswordForm" action="/auth/forgetPassword" method="post" class="needs-validation" novalidate
+            style="display: none;">
+            <div class="mb-3">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="forgetUsername" name="username"
+                    placeholder="Enter your name" required>
+                <div class="invalid-feedback">Username is required</div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password">New Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="password"
+                    placeholder="Enter your password" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmPassword" name="password2"
+                    placeholder="Confirm your password" required>
+                <div class="invalid-feedback">Password is required</div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('forgetPasswordBtn').addEventListener('click', function () {
+        // Hide login form
+        document.getElementById('loginForm').style.display = 'none';
+
+        // Show forget password form
+        document.getElementById('forgetPasswordForm').style.display = 'block';
+    });
+</script>

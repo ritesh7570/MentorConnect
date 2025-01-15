@@ -1,0 +1,52 @@
+<% layout("/mentor/layouts/boilerplate") -%>
+<div class="container mt-5">
+    <h2 class="text-center">Edit Profile</h2>
+
+    <!-- Display validation errors if any -->
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+        <div class="alert alert-danger">
+            <ul>
+                <% errors.forEach(function(error) { %>
+                    <li><%= error.msg %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <form action="/mentor/profile/edit/<%= mentor.user._id %>" method="POST">
+        <div class="form-group">
+            <label for="expertise">Expertise:</label>
+            <input type="text" class="form-control" id="expertise" name="expertise" value="<%= mentor.expertise.join(", ") %>" required>
+        </div>
+        <div class="form-group">
+            <label for="yearsOfExperience">Years of Experience:</label>
+            <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience" value="<%= mentor.yearsOfExperience %>" required>
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea class="form-control" id="bio" name="bio"><%= mentor.bio || '' %></textarea>
+        </div>
+        <div class="form-group">
+            <label for="linkedIn">LinkedIn:</label>
+            <input type="url" class="form-control" id="linkedIn" name="linkedIn" value="<%= mentor.linkedIn %>">
+        </div>
+        <div class="form-group">
+            <label for="twitter">Twitter:</label>
+            <input type="url" class="form-control" id="twitter" name="twitter" value="<%= mentor.twitter %>">
+        </div>
+        <div class="form-group">
+            <label for="github">GitHub:</label>
+            <input type="url" class="form-control" id="github" name="github" value="<%= mentor.github %>">
+        </div>
+        <div class="form-group">
+            <label for="portfolio">Portfolio:</label>
+            <input type="url" class="form-control" id="portfolio" name="portfolio" value="<%= mentor.portfolio %>">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+    <div class="mt-3">
+        <a href="/mentor/profile/<%= mentor.user._id %>" class="btn btn-secondary">Cancel</a>
+    </div>
+</div>

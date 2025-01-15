@@ -1,0 +1,43 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+
+<div class="page-container mt-3">
+    <h1>
+        <center>Create a New Quiz</center>
+    </h1>
+
+    <form action="/groups/<%= group._id %>/quizzes" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Quiz Title:</label>
+            <input type="text" name="quiz[title]" class="form-control" required />
+        </div>
+
+        <% for (let i = 0; i < 5; i++) { %>
+        <div class="mb-3">
+            <label for="questions[<%= i %>][questionText]" class="form-label">Question <%= i + 1 %>:</label>
+            <input type="text" name="quiz[questions][<%= i %>][questionText]" class="form-control" required />
+
+            <label class="form-label">Options:</label>
+            <input type="text" name="quiz[questions][<%= i %>][options][]" class="form-control" placeholder="Option 1"
+                required />
+            <input type="text" name="quiz[questions][<%= i %>][options][]" class="form-control" placeholder="Option 2"
+                required />
+            <input type="text" name="quiz[questions][<%= i %>][options][]" class="form-control" placeholder="Option 3"
+                required />
+            <input type="text" name="quiz[questions][<%= i %>][options][]" class="form-control" placeholder="Option 4"
+                required />
+
+            <label for="correctAnswer" class="form-label">Correct Answer (Index 1-4):</label>
+            <input type="number" name="quiz[questions][<%= i %>][correctAnswer]" class="form-control" min="1" max="4"
+                required />
+        </div>
+        <% } %>
+
+        <button type="submit" class="btn btn-primary">Create Quiz</button>
+    </form>
+</div>

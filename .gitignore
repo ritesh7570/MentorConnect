@@ -1,0 +1,35 @@
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+
+# Node modules
+node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+temp/
+uploads/
+*.tmp
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+
+# Build artifacts (if applicable)
+dist/
+build/
+
+# Miscellaneous
+*.bak
+*.orig
+.cache/
+
+
+.bin/

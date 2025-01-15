@@ -1,0 +1,108 @@
+<% if (userRole === "mentor") { %> <%- layout("mentor/layouts/boilerplate") %>
+<% } else if (userRole === "mentee") { %> <%-
+layout("mentee/layouts/boilerplate") %> <% } else { %> <%-
+layout("layouts/boilerplate") %> <% } %>
+<div class="page-container">
+  <div class="row mt-3">
+    <!-- Left Card -->
+    <div class="col-md-7">
+      <div class="card p-3">
+        <!-- Back and Action Buttons -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <a
+            href="/donations"
+            class="btn btn-back d-inline-flex align-items-center me-3"
+          >
+            <i class="fa-solid fa-left-long"></i>
+          </a>
+          <% if (currUser && donation.owner &&
+          donation.owner.equals(currUser._id)) { %>
+          <div class="d-flex align-items-center">
+            <a
+              href="/donations/<%= donation._id %>/edit"
+              class="btn btn-edit me-2"
+            >
+              <i class="fa-solid fa-edit"></i>
+            </a>
+            <form
+              action="/donations/<%= donation._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button
+                class="btn btn-delete"
+                type="submit"
+                onclick="return confirm('Are you sure you want to delete this donation?');"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+        <!-- Title and Details -->
+        <h1 class="text-center">
+          <%= donation.title %> <% if (donation.isEmergency) { %>
+          <i class="fa-solid fa-triangle-exclamation text-danger ms-2"></i>
+          <% } %>
+        </h1>
+        <p><strong>Description: &nbsp;</strong><%= donation.description %></p>
+        <p>
+          <strong>Total Collection:</strong> ₹ <%=
+          donation.totalCollection.toLocaleString('en-IN') %>
+        </p>
+        <% if (donation.isFundraising) { %>
+        <p>
+          <strong>Fundraising Goal:</strong> ₹ <%=
+          donation.fundraisingGoal.toLocaleString('en-IN') %>
+        </p>
+        <% } %> <% if (donation.deadlineDate) { %>
+        <p>
+          <strong>Deadline Date:</strong> <%=
+          donation.deadlineDate.toLocaleDateString() %>
+        </p>
+        <% } %>
+        <form action="/api/payment/<%= donation._id %>" method="get">
+          <button type="submit" class="btn btn-primary mt-2">
+            <i class="fa fa-donate"></i> Donate
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Right Card -->
+    <div class="col-md-5">
+      <div class="card p-3">
+        <h3>Payments</h3>
+        <% if (donation.payments.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Donor ID</th>
+                <th>Amount</th>
+                <th>Transaction ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% donation.payments.forEach(payment => { %>
+              <tr>
+                <td>
+                  <%= payment.donor ? payment.donor.username : "Anonymous" %>
+                </td>
+                <td>₹ <%= payment.amount.toLocaleString('en-IN') %></td>
+                <td>
+                  <% if (currUser && currUser._id.toString() ===
+                 payment.donor._id.toString()) { %> <%= payment._id %> <%
+                  } else { %> *********** <% } %>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <p>No payments have been made yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

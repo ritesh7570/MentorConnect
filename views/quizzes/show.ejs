@@ -1,0 +1,59 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+
+<div class="page-container mt-3">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="button-container">
+                <a href="/groups/<%= groupId %>/quizzes" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+
+                <% if (currUser.equals(quiz.createdBy)) { %>
+                <div class="button-group">
+                    <a href="/groups/<%= groupId %>/quizzes/<%= quiz._id %>/edit" class="btn btn-edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>?_method=DELETE" method="POST"
+                        class="d-inline">
+                        <button class="btn btn-delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
+            <h2 class="text-center"><%= quiz.title %></h2>
+            <hr>
+            <!-- Start the quiz form -->
+            <form action="/groups/<%= groupId %>/quizzes/<%= quiz._id %>/submit" method="POST">
+                <h4>Questions</h4>
+                <ul>
+                    <% quiz.questions.forEach((question, index) => { %>
+                    <li>
+                        <strong>Q<%= index + 1 %>:</strong> <%= question.questionText %>
+                        <ul>
+                            <% question.options.forEach((option, optIndex) => { %>
+                            <li>
+                                <label>
+                                    <input type="radio" name="answers[<%= index %>]" value="<%= optIndex %>">
+                                    <%= option %>
+                                </label>
+                            </li>
+                            <% }) %>
+                        </ul>
+                    </li>
+                    <% }) %>
+                </ul>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Submit Quiz
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

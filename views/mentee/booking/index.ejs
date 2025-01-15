@@ -1,0 +1,391 @@
+<%- layout("mentee/layouts/boilerplate") %>
+
+<!-- Main Container for FullCalendar -->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Mentor Schedule Price per Slot:&nbsp; &#8377; <%= pricePerSlot %></h1>
+          
+            <!-- Calendar Container -->
+            <div id="calendar"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Booking Details -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Confirm Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Start:</strong> <span id="modalStart"></span></p>
+                <p><strong>End:</strong> <span id="modalEnd"></span></p>
+                <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
+                <div class="mb-3">
+                    <label for="bookingTitle" class="form-label">Title:</label>
+                    <input type="text" id="bookingTitle" class="form-control" placeholder="e.g., Roadmap, DSA, Motivation"
+                        maxlength="30">
+                </div>
+                <div class="mb-3">
+                    <label for="bookingReason" class="form-label">Reason for Booking:</label>
+                    <textarea id="bookingReason" class="form-control" rows="3" placeholder="Enter your reason"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmBookingButton">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Event Detail Modal -->
+<div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailModalLabel">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Title:</strong> <span id="eventTitle"></span></p>
+                <p><strong>Status:</strong> <span id="eventStatus"></span></p>
+                <p><strong>Reason:</strong> <span id="eventReason"></span></p>
+                <p><strong>Start:</strong> <span id="eventStart"></span></p>
+                <p><strong>End:</strong> <span id="eventEnd"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deleteEventButton">Cancel schedule</button>
+                <!-- <button type="button" class="btn btn-warning" id="cancelEventButton">Cancel</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FullCalendar JS and CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var bookings = <%- JSON.stringify(bookings) %>;
+
+        var events = bookings.map(function (booking) {
+            let backgroundColor;
+            if (booking.status === 'confirmed') backgroundColor = 'green';
+            else if (booking.status === 'pending') backgroundColor = 'orange';
+            else if (booking.status === 'cancelled') backgroundColor = 'red';
+            else backgroundColor = '#ccc';
+
+            return {
+                id: booking.bookingId,
+                title: booking.title || 'Scheduled',
+                start: booking.start,
+                end: booking.end,
+                backgroundColor: backgroundColor,
+                extendedProps: {
+                    status: booking.status,
+                    reason: booking.reason || 'N/A',
+                    mentorId: booking.mentorId,
+                    menteeId: booking.menteeId
+                }
+            };
+        });
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            locale: 'en-IN',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek,dayGridMonth'
+            },
+
+            defaultDate: new Date().toISOString().split('T')[0], // Start with today's date
+        validRange: {
+            start: new Date().toISOString().split('T')[0] // Disable past dates
+        },
+            
+            events: events,
+            editable: false,
+            selectable: true,
+            select: function (selectionInfo) {
+                // Populate the modal with selected time range
+                document.getElementById('modalStart').textContent = selectionInfo.start.toISOString();
+                document.getElementById('modalEnd').textContent = selectionInfo.end.toISOString();
+
+                // Calculate total price based on duration and price per slot
+                let durationInHours = (selectionInfo.end - selectionInfo.start) / (1000 * 60 * 30);
+                let totalPrice = durationInHours * <%= pricePerSlot %>;
+                document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+
+                // Clear previous input values
+                document.getElementById('bookingTitle').value = '';
+                document.getElementById('bookingReason').value = '';
+
+                // Show the booking modal
+                var bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                bookingModal.show();
+
+                // Handle booking confirmation
+                document.getElementById('confirmBookingButton').onclick = function () {
+                    const title = document.getElementById('bookingTitle').value.trim();
+                    const reason = document.getElementById('bookingReason').value.trim();
+
+                    // Validate required fields
+                    if (!title || !reason) {
+                        alert("Please fill in all required fields.");
+                        return;
+                    }
+
+                    // Create a hidden form for submission
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/mentee/schedule/book-slot'; // Endpoint for slot booking
+
+                    const inputs = [
+                        { name: 'start', value: selectionInfo.start.toISOString() },
+                        { name: 'end', value: selectionInfo.end.toISOString() },
+                        { name: 'reason', value: reason },
+                        { name: 'totalPrice', value: totalPrice },
+                        { name: 'mentorUserId', value: '<%= mentorUserId %>' },
+                        { name: 'menteeUserId', value: '<%= menteeUserId %>' },
+                        { name: 'title', value: title }
+                    ];
+
+                    // Add input fields to the form
+                    inputs.forEach(inputData => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = inputData.name;
+                        input.value = inputData.value;
+                        form.appendChild(input);
+                    });
+
+                    document.body.appendChild(form);
+                    form.submit(); // Submit the form to trigger backend processing
+                };
+            },
+
+            eventClick: function (info) {
+                // Populate modal with event details
+                document.getElementById('eventTitle').textContent = info.event.title;
+                document.getElementById('eventStatus').textContent = info.event.extendedProps.status;
+                document.getElementById('eventReason').textContent = info.event.extendedProps.reason;
+                document.getElementById('eventStart').textContent = info.event.start.toISOString();
+                document.getElementById('eventEnd').textContent = info.event.end.toISOString();
+
+                // Show the Event Detail Modal
+                var eventModal = new bootstrap.Modal(document.getElementById('eventDetailModal'));
+                eventModal.show();
+
+                // Handle Delete Event
+                document.getElementById('deleteEventButton').onclick = function () {
+                    if (confirm('Are you sure you want to delete this booking?')) {
+                        // Post request to delete booking
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/mentee/slot/delete-slot'; // Update to your route
+
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'bookingId';
+                        input.value = info.event.id;
+                        form.appendChild(input);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                };
+
+                // Handle Cancel Event
+                // document.getElementById('cancelEventButton').onclick = function () {
+                //     if (confirm('Are you sure you want to cancel this booking?')) {
+                //         // Post request to cancel booking
+                //         const form = document.createElement('form');
+                //         form.method = 'POST';
+                //         form.action = '/mentee/cancel-slot'; // Update to your route
+
+                //         const input = document.createElement('input');
+                //         input.type = 'hidden';
+                //         input.name = 'bookingId';
+                //         input.value = info.event.id;
+                //         form.appendChild(input);
+
+                //         document.body.appendChild(form);
+                //         form.submit();
+                //     }
+                // };
+            },
+            eventMouseEnter: function (info) {
+    // Create a tooltip box
+    var tooltip = document.createElement('div');
+    tooltip.id = 'eventTooltip';
+    tooltip.style.position = 'absolute';
+    tooltip.style.zIndex = '10';
+    tooltip.style.background = '#f9f9f9';
+    tooltip.style.border = '1px solid #ddd';
+    tooltip.style.padding = '8px';
+    tooltip.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+    tooltip.style.borderRadius = '4px';
+    tooltip.innerHTML = `
+        <p><strong>Title:</strong> ${info.event.title}</p>
+        <p><strong>Status:</strong> ${info.event.extendedProps.status}</p>
+        <p><strong>Reason:</strong> ${info.event.extendedProps.reason}</p>
+    `;
+    document.body.appendChild(tooltip);
+
+    // Position tooltip near the mouse cursor
+    function moveTooltip(e) {
+        tooltip.style.top = e.clientY + 10 + 'px';
+        tooltip.style.left = e.clientX + 10 + 'px';
+    }
+    document.addEventListener('mousemove', moveTooltip);
+
+    // Remove tooltip when the mouse leaves the event cell
+    info.el.addEventListener('mouseleave', function removeTooltip() {
+        tooltip.remove();
+        document.removeEventListener('mousemove', moveTooltip);
+    });
+}
+        });
+
+        calendar.render();
+    });
+        </script>
+        
+        
+        
+        
+        <!-- <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+                var bookings = <%- JSON.stringify(bookings) %>; // Embed the bookings data
+        
+                // Map bookings to FullCalendar event format
+                var events = bookings.map(function (booking) {
+                    let backgroundColor;
+                    if (booking.status === 'confirmed') backgroundColor = 'green';
+                    else if (booking.status === 'pending') backgroundColor = 'orange';
+                    else if (booking.status === 'cancelled') backgroundColor = 'red';
+                    else backgroundColor = '#ccc'; // Default
+        
+                    return {
+                        id: booking.bookingId,
+                        title: booking.title || 'Scheduled',
+                        start: booking.start,
+                        end: booking.end,
+                        backgroundColor: backgroundColor,
+                        extendedProps: {
+                            status: booking.status,
+                            reason: booking.reason || 'N/A',
+                            mentorId: booking.mentorId,
+                            menteeId: booking.menteeId
+                }
+            };
+            });
+            
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'timeGridWeek,dayGridMonth'
+            },
+            events: events,
+            editable: false,
+            selectable: true,
+            eventMouseEnter: function (info) {
+                // Display a tooltip with booking details
+                var tooltip = document.createElement('div');
+                tooltip.id = 'eventTooltip';
+                tooltip.style.position = 'absolute';
+                tooltip.style.zIndex = '1000';
+                tooltip.style.background = '#fff';
+                tooltip.style.border = '1px solid #ccc';
+                tooltip.style.padding = '10px';
+                tooltip.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                tooltip.innerHTML = `
+                    <p><strong>Title:</strong> ${info.event.title}</p>
+                    <p><strong>Status:</strong> ${info.event.extendedProps.status}</p>
+                    <p><strong>Reason:</strong> ${info.event.extendedProps.reason}</p>
+                `;
+                document.body.appendChild(tooltip);
+
+                document.addEventListener('mousemove', function moveTooltip(e) {
+                    tooltip.style.top = e.clientY + 10 + 'px';
+                    tooltip.style.left = e.clientX + 10 + 'px';
+
+                    // Remove tooltip on mouse leave
+                    info.el.addEventListener('mouseleave', function removeTooltip() {
+                        tooltip.remove();
+                        document.removeEventListener('mousemove', moveTooltip);
+                    });
+                });
+            },
+            select: function (selectionInfo) {
+            // Populate the modal with selected time range
+            document.getElementById('modalStart').textContent = selectionInfo.start.toISOString();
+            document.getElementById('modalEnd').textContent = selectionInfo.end.toISOString();
+            
+            let durationInHours = (selectionInfo.end - selectionInfo.start) / (1000 * 60 * 60);
+            let totalPrice = durationInHours * <%= pricePerSlot %>;
+            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+            
+            document.getElementById('bookingTitle').value = '';
+            document.getElementById('bookingReason').value = '';
+            
+            // Show booking modal
+            var bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+            bookingModal.show();
+            
+            document.getElementById('confirmBookingButton').onclick = function () {
+            var title = document.getElementById('bookingTitle').value.trim();
+            var reason = document.getElementById('bookingReason').value.trim();
+
+                    if (!title || !reason) {
+                    alert("Please fill in all required fields.");
+                    return;
+                    }
+
+                    // Create a hidden form for submission
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/mentee/book-slot';
+                    
+                    const inputs = [
+                    { name: 'start', value: selectionInfo.start.toISOString() },
+                    { name: 'end', value: selectionInfo.end.toISOString() },
+                    { name: 'reason', value: reason },
+                    { name: 'totalPrice', value: totalPrice },
+                    { name: 'mentorUserId', value: '<%= mentorUserId %>' },
+                    { name: 'menteeUserId', value: '<%= menteeUserId %>' },
+                    { name: 'title', value: title }
+                    ];
+
+                    // Add input fields to the form
+                    inputs.forEach(inputData => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = inputData.name;
+                    input.value = inputData.value;
+                    form.appendChild(input);
+                    });
+
+                    document.body.appendChild(form);
+                    form.submit(); // Submit the form to navigate to the new page
+                    };
+                    }
+        });
+
+        calendar.render();
+    });
+</script> -->

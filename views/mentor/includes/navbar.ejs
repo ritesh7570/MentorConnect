@@ -1,0 +1,86 @@
+<div class="header-container">
+  <header>
+    <div class="logo">
+      <a href="/">
+        <img src="/image/common/connexusLogo.jpeg" alt="Connexus" />
+      </a>
+    </div>
+    <nav class="navbar2">
+      <ul class="nav-links2">
+        <!-- <li><a href="/">Home</a></li> -->
+        <li><a href="/mentor/connection">My Mentee</a></li>
+        <li><a href="/jobs">Career</a></li>
+        <li><a href="/groups">Groups</a></li>
+        <!-- <li><a href="/events">Events</a></li>
+        <li><a href="/donations">Donation</a></li>
+        <li><a href="/discussions">Discussion</a></li>
+        <li><a href="/successes">Success story</a></li> -->
+
+        <li><a href="/calendly">calendly</a></li>
+        <li><a href="/mentor/schedule">Schedule</a></li>
+      </ul>
+    </nav>
+      <div class="auth-buttons">
+        <a href="/notifications" class="btn btn-light position-relative">
+          <i class="fa fa-bell"></i>
+          <% if (typeof unreadCount !== 'undefined' && unreadCount > 0) { %>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          >
+            <%= unreadCount %>
+          </span>
+          <% } %>
+        </a>
+        <a href="/mentor/profile/<%= currUser._id %>" class="btn login-btn"
+          >Profile</a
+        >
+        <a href="/auth/logout" class="btn login-btn">Log out</a>
+      </div>
+      <div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div>
+    
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <span class="close-menu" onclick="toggleMenu()">&#10006;</span>
+    <ul class="mobile-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/mentor/connection">My Mentee</a></li>
+      <li><a href="/jobs">Career</a></li>
+      <li><a href="/groups">Groups</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/donations">Donation</a></li>
+      <li><a href="/discussions">Discussion</a></li>
+      <li><a href="/successes">Success Story</a></li>
+    </ul>
+
+    <div class="mobile-auth-buttons">
+      <% if (!currUser) { %>
+      <a href="/auth/login" class="btn login-btn">Log in</a>
+      <a href="/auth/register" class="btn register-btn">Signup</a>
+      <% } else { %>
+      <a href="/notifications" class="btn btn-light position-relative">
+        <i class="fa fa-bell"></i>
+        <% if (typeof unreadCount !== 'undefined' && unreadCount > 0) { %>
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          <%= unreadCount %>
+        </span>
+        <% } %>
+      </a>
+      <a href="/mentor/profile/<%= currUser._id %>" class="btn login-btn"
+        >Profile</a
+      >
+      <a href="/auth/logout" class="btn login-btn">Log out</a>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const mobileMenu = document.querySelector(".mobile-menu");
+      mobileMenu.classList.toggle("open");
+    }
+  </script>
+</div>

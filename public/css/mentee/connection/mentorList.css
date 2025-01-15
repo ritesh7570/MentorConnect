@@ -1,0 +1,66 @@
+.container {
+    margin-top: 20px;
+}
+
+.mentor-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mentor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mentor-card .card-img-top {
+    height: 150px;
+    object-fit: cover;
+}
+
+.mentor-card .profile-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    position: relative;
+    top: -40px;
+}
+
+.mentor-card .card-body {
+    padding: 1rem;
+    text-align: center;
+}
+
+.mentor-card .card-title {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.mentor-card .card-text {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.btn-info {
+    margin-right: 5px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.alert {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}

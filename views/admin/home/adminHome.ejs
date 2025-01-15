@@ -1,0 +1,87 @@
+<%- layout("admin/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <h1>Admin Dashboard</h1>
+
+  <!-- Pending Mentors Section -->
+  <section class="mt-4">
+    <h2>Pending Mentor Approvals</h2>
+    <% if (pendingMentors.length > 0) { %>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Expertise</th>
+            <th>Experience</th>
+            <th>Certificate</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pendingMentors.forEach((mentor) => { %>
+            <tr>
+              <td><%= mentor.user.username %></td>
+              <td><%= mentor.user.email %></td>
+              <td><%= mentor.expertise.join(', ') %></td>
+              <td><%= mentor.yearsOfExperience %> years</td>
+              <td>
+                <a href="/allPDF/<%= mentor.experienceCertificate.split('/').pop() %>" target="_blank">View</a>
+              </td>
+                <td>
+                <form action="/admin/update-mentor-status" method="post" class="d-inline">
+                  <input type="hidden" name="mentorId" value="<%= mentor._id %>">
+                  <button name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+                </form>
+                <form action="/admin/update-mentor-status" method="post" class="d-inline">
+                  <input type="hidden" name="mentorId" value="<%= mentor._id %>">
+                  <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No pending mentor approvals.</p>
+    <% } %>
+  </section>
+
+  <!-- Reported Mentors Section -->
+  <section class="mt-4">
+    <h2>Reported Mentors</h2>
+    <% if (reportedMentors.length > 0) { %>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Reports</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reportedMentors.forEach((mentor) => { %>
+            <tr>
+              <td><%= mentor.username %></td>
+              <td><%= mentor.email %></td>
+              <td><%= mentor.reportedBy.length %></td>
+              <td>
+                <form action="/admin/manage-reported-mentor" method="post" class="d-inline">
+                  <input type="hidden" name="mentorId" value="<%= mentor._id %>">
+                  <button name="action" value="blacklist" class="btn btn-dark btn-sm">Blacklist</button>
+                </form>
+                <form action="/admin/manage-reported-mentor" method="post" class="d-inline">
+                  <input type="hidden" name="mentorId" value="<%= mentor._id %>">
+                  <button name="action" value="resetReports" class="btn btn-warning btn-sm">Reset Reports</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No reported mentors.</p>
+    <% } %>
+  </section>
+</div>

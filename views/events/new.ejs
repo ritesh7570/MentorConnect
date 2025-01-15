@@ -1,0 +1,78 @@
+<% if (userRole === "mentor") { %>
+  <%- layout("mentor/layouts/boilerplate") %>
+  <% } else if (userRole === "mentee") { %>
+  <%- layout("mentee/layouts/boilerplate") %>
+  <% } else { %>
+  <%- layout("layouts/boilerplate") %>
+  <% } %>
+
+<link rel="stylesheet" href="/css/event/newEvent.css">
+
+<div class="container">
+  <div class="row">
+    <div class="col-6 offset-3">
+      <h1 class="mt-4">Create New Event</h1>
+     
+      <form action="/events" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Event Title <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="title" name="event[title]" placeholder="Enter the event title" required minlength="1" maxlength="200">
+          <div class="invalid-feedback">Please enter an event title.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Event Description <span class="text-danger">*</span></label>
+          <textarea class="form-control" id="description" name="event[description]" placeholder="Describe the event" required minlength="1" maxlength="1000"></textarea>
+          <div class="invalid-feedback">Please enter an event description.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="eventPoster" class="form-label">Event Poster (optional)</label>
+          <input type="file" class="form-control" id="eventPoster" name="event[poster]" accept="image/*">
+        </div>
+
+        <div class="row mb-3">
+          <div class="mb-3 col-6">
+            <label for="date" class="form-label">Event Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="date" name="event[date]" required>
+            <div class="invalid-feedback">Please select an event date.</div>
+          </div>
+
+          <div class="mb-3 col-6">
+            <label for="time" class="form-label">Event Time <span class="text-danger">*</span></label>
+            <input type="time" class="form-control" id="time" name="event[time]" required>
+            <div class="invalid-feedback">Please select an event time.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Is the event online? <span class="text-danger">*</span></label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="event[isOnline]" id="isOnlineYes" value="true"  onchange="toggleEventLocation()">
+            <label class="form-check-label" for="isOnlineYes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="event[isOnline]" id="isOnlineNo" value="false"  onchange="toggleEventLocation()">
+            <label class="form-check-label" for="isOnlineNo">No</label>
+          </div>
+        
+          <div class="row mb-3">
+            <div class="col-6 d-none" id="venueField">
+              <label for="venue" class="form-label">Event Venue </label>
+              <input type="text" class="form-control" id="venue" name="event[venue]" placeholder="e.g., Community Hall">
+              <div class="invalid-feedback">Please enter the event venue.</div>
+            </div>
+            <div class="col-6 d-none" id="linkField">
+              <label for="link" class="form-label">Event Link </label>
+              <input type="url" class="form-control" id="link" name="event[link]" placeholder="e.g., https://example.com">
+              <div class="invalid-feedback">Please enter a valid event link.</div>
+            </div>
+          </div>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Create Event">
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/js/new-event.js"></script>

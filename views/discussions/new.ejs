@@ -1,0 +1,59 @@
+<% if (userRole === "mentor") { %>
+    <%- layout("mentor/layouts/boilerplate") %>
+    <% } else if (userRole === "mentee") { %>
+    <%- layout("mentee/layouts/boilerplate") %>
+    <% } else { %>
+    <%- layout("layouts/boilerplate") %>
+    <% } %>
+<div class="page-container">
+    <div class="row mt-3">
+        <div class="col-6 offset-3">
+            <!-- Back to Posts with Icon -->
+            <a href="/discussions" class="btn btn-secondary d-inline-flex align-items-center">
+                <i class="fa-solid fa-left-long"></i>
+            </a>
+            <br><br>
+            <h3>Create New Post</h3>
+            <form action="/discussions" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="discussion[title]" class="form-control"
+                        placeholder="Add a catchy title" required>
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">Please enter a title.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Content</label>
+                    <textarea id="description" name="discussion[description]" class="form-control" rows="4"
+                        placeholder="Write your post content here" required></textarea>
+                    <div class="invalid-feedback">Please enter the content of your post.</div>
+                </div>
+
+                <!-- Query Type Dropdown -->
+                <div class="mb-3">
+                    <label for="queryType" class="form-label">Query Type</label>
+                    <select id="queryType" name="discussion[queryType]" class="form-select" required>
+                        <option value="" disabled selected>Select a query type</option>
+                        <option value="Help">Help</option>
+                        <option value="Job">Job</option>
+                        <option value="Internship">Internship</option>
+                        <option value="General Query">General Query</option>
+                        <option value="Life Update">Life Update</option>
+                        <option value="Achievement">Achievement</option>
+                        <option value="Pledge">Pledge</option>
+                        <option value="Technical Query">Technical Query</option>
+                        <option value="Notes">Notes</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a query type.</div>
+                </div>
+
+                <button type="submit" class="btn btn-dark add-btn mt-3">
+                    <i class="fa-solid fa-plus"></i> Post
+                </button>
+                <br><br>
+            </form>
+        </div>
+    </div>
+</div>

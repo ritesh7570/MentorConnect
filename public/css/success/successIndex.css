@@ -1,0 +1,149 @@
+/* Container Styling */
+.page-container {
+  padding: 20px;
+}
+
+/* Card Component Styling */
+.card.post-card {
+  border: 2px solid #00ffcc; /* Neon border color */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card.post-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Updated Image Styling */
+.upperpart img {
+  width: 100%;
+  aspect-ratio: 16/9; /* Ensures fixed aspect ratio for all images */
+  object-fit: cover; /* Crops images to maintain aspect ratio */
+  border-bottom: 2px solid #00ffcc; /* Neon border below image */
+  border-radius: 5px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.card-title {
+  min-height: 3.6rem; /* Space for two lines */
+  line-height: 1.8rem;
+  overflow: hidden;
+}
+
+.card-text {
+  color: #555;
+}
+
+/* Button Styling */
+
+/* Like button with reddish color */
+.btn-like {
+  background-color: #ffebee; /* Light reddish background */
+  border: 2px solid #ef9a9a; /* Light red border */
+  color: #c62828; /* Reddish text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-like:hover {
+  background-color: #ef9a9a; /* Darker red on hover */
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Comment button with light greenish color */
+.btn-comment {
+  background-color: #e8f5e9; /* Light greenish background */
+  border: 2px solid #a5d6a7; /* Light green border */
+  color: #388e3c; /* Dark green text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-comment:hover {
+  background-color: #a5d6a7; /* Darker greenish background on hover */
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Read more button with blueish color */
+.btn-primary.readmore {
+  background-color: #bbdefb; /* Light blue background */
+  border: 2px solid #64b5f6; /* Slightly darker blue border */
+  color: #1976d2; /* Blue text */
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary.readmore:hover {
+  background-color: #64b5f6; /* Darker blue on hover */
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Create Post Button with consistent greenish color */
+.btn-success {
+  background-color: #a5d6a7; /* Light green */
+  border: 2px solid #81c784; /* Darker green for border */
+  color: #333;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #81c784; /* Darker green */
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Font Awesome Icons Styling */
+.btn-like i {
+  margin-right: 5px;
+  color: #c62828; /* Reddish color for like icon */
+}
+
+.btn-comment i {
+  margin-right: 5px;
+  color: #388e3c; /* Greenish color for comment icon */
+}
+
+.btn-primary.readmore i {
+  margin-right: 5px;
+  color: #1976d2; /* Blueish color for read more icon */
+}
+/* Placeholder for no image found */
+.no-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9; /* Same aspect ratio as the image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0; /* Light grey background */
+  color: #666; /* Text color */
+  font-weight: bold;
+  border-bottom: 2px solid #00ffcc; /* Neon border matching image */
+  border-radius: 5px;
+}

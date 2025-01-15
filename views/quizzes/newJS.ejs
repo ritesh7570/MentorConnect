@@ -1,0 +1,74 @@
+<% if (userRole === "mentor") { %>
+  <%- layout("mentor/layouts/boilerplate") %>
+  <% } else if (userRole === "mentee") { %>
+  <%- layout("mentee/layouts/boilerplate") %>
+  <% } else { %>
+  <%- layout("layouts/boilerplate") %>
+  <% } %>
+
+<script>
+  // Add new question dynamically
+  function addQuestion() {
+    const questionCount = document.querySelectorAll(".question").length;
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add("question");
+
+    questionDiv.innerHTML = `
+        <h3>Question ${questionCount + 1}</h3>
+        <label for="questions[${questionCount}][questionText]">Question Text:</label>
+        <input type="text" name="questions[${questionCount}][questionText]" required /><br/>
+
+        <div class="options-container">
+          <label>Options:</label><br/>
+          <input type="text" name="questions[${questionCount}][options][]" placeholder="Option 1" required />
+          <input type="text" name="questions[${questionCount}][options][]" placeholder="Option 2" required />
+          <button type="button" onclick="addOption(this)">Add Option</button><br/>
+
+          <label>Correct Answer (Index):</label>
+          <input type="number" name="questions[${questionCount}][correctAnswer]" min="0" required />
+        </div>
+        <hr/>
+      `;
+
+    document.getElementById("questions-container").appendChild(questionDiv);
+  }
+
+  // Add new option dynamically for a question
+  function addOption(button) {
+    const optionsContainer = button.previousElementSibling;
+    const optionCount = optionsContainer.querySelectorAll("input").length;
+    const newOption = document.createElement("input");
+    newOption.setAttribute("type", "text");
+    newOption.setAttribute("name", optionsContainer.children[1].name);
+    newOption.setAttribute("placeholder", `Option ${optionCount + 1}`);
+    optionsContainer.appendChild(newOption);
+  }
+
+  // Ensure at least 2 options are entered for each question
+  function validateForm() {
+    const questions = document.querySelectorAll(".question");
+    for (let i = 0; i < questions.length; i++) {
+      const options = questions[i].querySelectorAll("input[name^='questions'][name$='[options][]']");
+      if (options.length < 2) {
+        alert(`Question ${i + 1} must have at least 2 options`);
+        return false;
+      }
+    }
+    return true;
+  }
+</script>
+
+<h1>Create a New Quiz</h1>
+
+<form action="/groups/<%= group._id %>/quizzes" method="POST" onsubmit="return validateForm()">
+  <label for="title">Quiz Title:</label>
+  <input type="text" name="quiz[title]" required /><br /><br />
+
+  <div id="questions-container">
+    <!-- Questions will be appended here -->
+  </div>
+
+  <button type="button" onclick="addQuestion()">Add Question</button><br /><br />
+
+  <button type="submit">Create Quiz</button>
+</form>

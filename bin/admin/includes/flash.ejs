@@ -1,0 +1,20 @@
+<% if (messages && messages.success && messages.success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert" id="successMessage">
+        <%= messages.success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (messages && messages.error && messages.error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert" id="errorMessage">
+        <%= messages.error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (messages && messages.info && messages.info.length) { %>
+    <div class="alert alert-info alert-dismissible fade show col-6 offset-3" role="alert" id="infoMessage">
+        <%= messages.info %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
