@@ -19,12 +19,11 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const http = require("http");
 const socketIo = require("socket.io");
-// const mongoose = require("mongoose");
 const session = require("express-session");
 
 // Configurations and Services
 const connectToDatabase = require("./config/mongoConfig");
-const sessionConfig = require("./config/sessionConfig");
+// const sessionConfig = require("./config/sessionConfig");
 // const uploadService = require("./services/uploadService");
 const flashConfig = require("./config/flashConfig");
 const errorHandler = require("./middlewares/errorHandler");
@@ -32,6 +31,19 @@ const routes = require("./routes/indexRoutes");
 
 // MongoDB Connection
 connectToDatabase();
+// Run seeder in Railway or production
+if (
+  process.env.RAILWAY_ENVIRONMENT || // Railway sets this env variable
+  process.env.NODE_ENV === "production"
+) {
+  try {
+    require("./seeder/index.js");
+    console.log("Seeder ran successfully.");
+  } catch (err) {
+    console.error("Seeder failed:", err);
+  }
+}
+
 
 // Models
 const User = require("./models/user");
@@ -51,7 +63,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(
-  session(sessionConfig(process.env.MONGODB_URL, process.env.SESSION_SECRET))
+  session({
+    secret: process.env.SESSION_SECRET || "yourFallbackSecret",
+    resave: false,
+    saveUninitialized: false,
+    // For production, use a store like connect-redis here
+  })
 );
 app.use(flash());
 
@@ -75,8 +92,6 @@ app.get("/", (req, res) => {
   }
   res.render("common/landingPage", { cssFile: "common/landingPage.css" });
 });
-
-
 
 // Route to check if the chat is enabled
 const Booking = require('./models/bookingModel');
