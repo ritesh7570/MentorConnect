@@ -5,37 +5,40 @@ process.on("unhandledRejection", (reason, promise) => {
 });
 
 // Environment Configuration
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
 // Imports
 const express = require("express");
+const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const path = require("path");
-const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 const http = require("http");
+const path = require("path");
 const socketIo = require("socket.io");
-const session = require("express-session");
 
-// Configurations and Services
+// Configs & Services
 const connectToDatabase = require("./config/mongoConfig");
-// const sessionConfig = require("./config/sessionConfig");
-// const uploadService = require("./services/uploadService");
 const flashConfig = require("./config/flashConfig");
 const errorHandler = require("./middlewares/errorHandler");
 const routes = require("./routes/indexRoutes");
 
+// Models
+const User = require("./models/user");
+const Booking = require("./models/bookingModel");
+
+// Initialize Express
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 // MongoDB Connection
 connectToDatabase();
-// Run seeder in Railway or production
-if (
-  process.env.RAILWAY_ENVIRONMENT || // Railway sets this env variable
-  process.env.NODE_ENV === "production"
-) {
+if (process.env.NODE_ENV === "production") {
   try {
     require("./seeder/index.js");
     console.log("Seeder ran successfully.");
@@ -43,64 +46,60 @@ if (
     console.error("Seeder failed:", err);
   }
 }
+ try {
+    require("./seeder/index.js");
+    console.log("Seeder ran successfully.");
+  } catch (err) {
+    console.error("Seeder failed:", err);
+  }
 
 
-// Models
-const User = require("./models/user");
 
-// Express App Initialization
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
 
-// Express Configuration
+// View Engine
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// Middleware
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
 app.use(express.json());
-console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+app.use(methodOverride("_method"));
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "yourFallbackSecret",
     resave: false,
     saveUninitialized: false,
-    // For production, use a store like connect-redis here
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
   })
 );
-app.use(flash());
 
-// Passport Configuration
+// Flash & Passport
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// Middleware for Flash Messages
 app.use(flashConfig);
 
 // Routes
 app.use(routes);
 
-// Landing Page Route
+// Landing Page
 app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.redirect(`/${req.user.role}`);
-  }
+  if (req.isAuthenticated()) return res.redirect(`/${req.user.role}`);
   res.render("common/landingPage", { cssFile: "common/landingPage.css" });
 });
 
-// Route to check if the chat is enabled
-const Booking = require('./models/bookingModel');
-
-app.get('/chat-enabled/:mentorId/:menteeId', async (req, res) => {
+// Chat Enable API
+app.get("/chat-enabled/:mentorId/:menteeId", async (req, res) => {
   const { mentorId, menteeId } = req.params;
-
   const now = new Date();
   const booking = await Booking.findOne({
     menteeUserId: menteeId,
@@ -109,28 +108,27 @@ app.get('/chat-enabled/:mentorId/:menteeId', async (req, res) => {
     "schedule.start": { $lte: now },
     "schedule.end": { $gte: now },
   });
-
-  res.json({ chatEnabled: !!booking }); // Return true if a valid booking is found
+  res.json({ chatEnabled: !!booking });
 });
 
+// Calendly Redirect
 app.get("/calendly", (req, res) => {
   res.redirect("https://calendly.com/rakesh18212236");
 });
 
+// 404
 app.get("*", (req, res) => {
   res.status(404).send("Page Not Found");
 });
 
-// Error Handling Middleware
+// Error Handler
 app.use(errorHandler);
 
-// Real-Time Chat Integration
-const chatServer = require("./chatServer");
-const { log } = require("console");
-chatServer(io);
+// Real-time Chat
+require("./chatServer")(io);
 
-// Server Listener
+// Listen
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
