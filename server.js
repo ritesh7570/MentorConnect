@@ -46,15 +46,6 @@ if (process.env.NODE_ENV === "production") {
     console.error("Seeder failed:", err);
   }
 }
- try {
-    require("./seeder/index.js");
-    console.log("Seeder ran successfully.");
-  } catch (err) {
-    console.error("Seeder failed:", err);
-  }
-
-
-
 
 // View Engine
 app.engine("ejs", ejsMate);
